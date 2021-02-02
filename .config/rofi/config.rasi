@@ -1,0 +1,10 @@
+/** Basic config file **/
+
+configuration {
+    show-icons:         true;
+    icon-theme:         "Papirus";
+}
+@import "~/.cache/wal/colors-rofi-dark"
+/* @import "~/.cache/wal/colors-rofi-light"
+*/
+element-icon { size: 4ch ; }

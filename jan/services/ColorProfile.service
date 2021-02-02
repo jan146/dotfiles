@@ -1,0 +1,10 @@
+[Unit]
+Description=Load custom color profile
+After=default.target
+[Service]
+Type=oneshot
+RemainAfterExit=false
+ExecStartPre=/bin/sleep 5
+ExecStart=/bin/bash /home/jan/jan/LoadColorProfile.sh
+[Install]
+WantedBy=default.target

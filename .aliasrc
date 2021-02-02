@@ -1,0 +1,36 @@
+# General
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias ip='ip -color=auto'
+alias ll='ls -alh'
+alias tj='mono ~/jan/tj.exe'
+alias fehbg='~/jan/services/feh.sh'
+alias walbg='~/jan/services/wal.sh'
+
+# Systemd
+
+alias sctl-st='systemctl start'
+alias sctl-sp='systemctl stop'
+alias sctl-rs='systemctl restart'
+alias sctl-en='systemctl enable'
+alias sctl-dis='systemctl disable'
+alias sctl='systemctl status'
+
+# Systemd with privileges
+
+alias ssctl-st='sudo systemctl start'
+alias ssctl-sp='sudo systemctl stop'
+alias ssctl-rs='sudo systemctl restart'
+alias ssctl-en='sudo systemctl enable'
+alias ssctl-dis='sudo systemctl disable'
+alias ssctl='systemctl status'
+
+# Systemd for user
+
+alias sctlu-st='systemctl --user start'
+alias sctlu-sp='systemctl --user stop'
+alias sctlu-rs='systemctl --user restart'
+alias sctlu-en='systemctl --user enable'
+alias sctlu-dis='systemctl --user disable'
+alias sctlu='systemctl --user status'

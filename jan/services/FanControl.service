@@ -1,0 +1,12 @@
+[Unit]
+Description=Gpu fan control service
+After=default.target
+[Service]
+Type=simple
+TimeoutStartSec=0
+Restart=on-failure
+RestartSec=10s
+ExecStartPre=/bin/sleep 5
+ExecStart=%h/jan/services/FanCurveScript.sh
+[Install]
+WantedBy=default.target

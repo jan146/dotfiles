@@ -1,0 +1,1 @@
+colormgr device-make-profile-default /org/freedesktop/ColorManager/devices/xrandr_Ancor_Communications_Inc_VG248_J1LMQS132186_jan_1000 /org/freedesktop/ColorManager/profiles/icc_30c136062bbd32b2cd0ce61be5e92f98
