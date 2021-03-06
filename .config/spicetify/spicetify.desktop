@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Spotify (automatic colors)
+GenericName=Music Player
+Icon=spicetify
+Exec=spicetify watch -l %U
+Terminal=false
+Categories=Audio;Music;Player;AudioVideo;
+StartupWMClass=spotify

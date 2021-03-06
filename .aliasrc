@@ -4,9 +4,9 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
 alias ll='ls -alh'
-alias tj='mono ~/jan/tj.exe'
 alias fehbg='~/jan/services/feh.sh'
 alias walbg='~/jan/services/wal.sh'
+alias gcc+='gcc -std=c99 -pedantic -Wall -lm'
 
 # Systemd
 

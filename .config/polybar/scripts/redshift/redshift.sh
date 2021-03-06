@@ -1,6 +1,6 @@
 #!/bin/sh
 
-envFile=~/jan/services/redshift/env.sh
+envFile=~/.config/polybar/scripts/redshift/env.sh
 changeValue=100
 
 changeMode() {

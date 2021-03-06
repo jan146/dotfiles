@@ -1,5 +1,5 @@
 # Generate global color scheme
-wal -i ~/.local/share/wallpapers/ --backend $1
+wal -i ~/Pictures/wallpapers/"$2" --backend $1
 
 # IntelliJ
 /bin/bash ~/.config/JetBrains/"IdeaIC2020.3"/intellijPywal/intellijPywalGen.sh ~/.config/JetBrains/"IdeaIC2020.3"
@@ -10,7 +10,7 @@ wal -i ~/.local/share/wallpapers/ --backend $1
 
 # Discord
 # wal-discord -b $1; beautifuldiscord --css $HOME/.cache/wal-discord/style.css
-wal-discord -b $1
+wal-discord 
 
 # Firefox
 pywalfox update

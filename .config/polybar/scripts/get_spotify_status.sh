@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # The name of polybar bar which houses the main spotify module and the control modules.
-PARENT_BAR="now-playing"
+PARENT_BAR="example"
 PARENT_BAR_PID=$(pgrep -a "polybar" | grep "$PARENT_BAR" | cut -d" " -f1)
-PID=$(cat ~/jan/services/spotify/pid)
 
 # Set the source audio player here.
 # Players supporting the MPRIS spec are supported.
@@ -22,7 +21,6 @@ update_hooks() {
     while IFS= read -r id
     do
         polybar-msg -p "$PID" hook spotify-play-pause $2 1>/dev/null 2>&1
-        # polybar-msg -p "$id" hook spotify-play-pause $2 1>/dev/null 2>&1
     done < <(echo "$1")
 }
 

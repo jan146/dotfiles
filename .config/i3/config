@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:JetBrains Mono 10
+font pango:JetBrains Mono 14
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -25,7 +25,7 @@ font pango:JetBrains Mono 10
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 # exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/jan/services/lockscreen.sh --nofork 
+exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen_rapid 
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -54,7 +54,7 @@ bindsym XF86AudioPrev exec playerctl previous
 floating_modifier $mod
 
 # start a terminal
-bindsym Control+Mod1+t exec st -f "JetBrains Mono:style=Regular:size=12" 
+bindsym Control+Mod1+t exec st -f "JetBrains Mono:style=Bold:size=12" 
 
 # start dolphin
 bindsym $mod+e exec xdg-open /home/jan
@@ -202,16 +202,17 @@ exec_always xrandr --output DP-2 --mode 1920x1080 -r 144
 # Setting gaps between windows and edges
 for_window [class=".*"] border pixel 0
 gaps inner 20
-
-# Randomize wallpaper
-# exec systemctl --user start i3background.service
+gaps top 27
 
 # Restore wal from previous session
 exec_always wal -R
 
-# Shortcut to run wal
-bindsym $mod+Shift+O exec $HOME/jan/services/wal.sh wal
-bindsym $mod+Shift+I exec $HOME/jan/services/wal.sh colorz
+# Shortcuts to run wal
+bindsym Ctrl+$mod+1 exec $HOME/jan/services/wal.sh wal
+bindsym Ctrl+$mod+2 exec $HOME/jan/services/wal.sh colorthief
+bindsym Ctrl+$mod+3 exec $HOME/jan/services/wal.sh colorz
+bindsym Ctrl+$mod+4 exec $HOME/jan/services/wal.sh haishoku
+bindsym Ctrl+$mod+5 exec $HOME/jan/services/wal.sh schemer2
 
 # Disable mouse acceleration with libinput
 exec xinput --set-prop 12 'libinput Accel Speed' 0
@@ -246,7 +247,7 @@ bindsym $mod+d exec rofi -show drun -show-icons -lines 7 -width 80 -padding 500 
 bindsym $mod+Shift+d exec rofi -show power-menu -modi power-menu:rofi-power-menu -font "JetBrains Mono 18" -lines 6 -width 20
 
 # i3lock custom setup shortcut
-bindsym $mod+x exec razer-cli -b 0 && betterlockscreen_rapid 10 3 razer-cli -a -b 100
+bindsym $mod+x exec loginctl lock-session ${XDG_SESSION_ID-} 
 
 # Screenshot shortcuts (old)
 # Multi-screen screenshots with scrot
@@ -260,3 +261,6 @@ bindsym --release Shift+Print exec maim -s | xclip -selection clipboard -t image
 
 # Start kdeconnect service
 exec --no-startup-id /usr/lib/kdeconnectd
+
+# Start PulseEffects
+exec_always /usr/bin/pulseeffects --gapplication-service &> /dev/null
