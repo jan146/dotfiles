@@ -62,11 +62,15 @@ font-1 = "FontAwesome:style=Regular:size=11:antialiasing=true;1"
 font-2 = "Material Icons:style=Regular:size=11:antialiasing=true;3"
 font-3 = "MesloLGS NF:style=Regular:size=11:antialiasing=true;1"
 
-font-4 = fixed:pixelsize=10;1
-font-5 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-6 = siji:pixelsize=10;1
+font-4 = "JoyPixels:pixelsize=10:antialias=true:autohint=true;1"
+font-5 = "NotoSansCJKsc:weight=bold:size=11;1"
+font-6 = "NotoSansCJKtc:weight=bold:size=11;1"
 
-modules-left = i3 cpu gpu mem separator spotify spotify-prev spotify-play-pause spotify-next
+;font-5 = fixed:pixelsize=10;1
+;font-6 = unifont:fontformat=truetype:size=8:antialias=false;0
+;font-7 = siji:pixelsize=10;1
+
+modules-left = i3 cpu gpu mem separator spotify spotify-prev underline spotify-play-pause underline spotify-next underline underline
 modules-center = time
 modules-right = pulseaudio-control redshift brightness xkeyboardbutbetter date powermenu2
 
@@ -103,24 +107,24 @@ type = custom/script
 exec = echo ""
 format = <label>
 format-underline = ${colors.primary}
-click-left = playerctl -p spotify previous 
+click-left = playerctl previous 
 
 [module/spotify-play-pause]
 type = custom/ipc
-hook-0 = echo "  "
-hook-1 = echo "  "
+hook-0 = echo ""
+hook-1 = echo ""
 initial = 1
 
 format-underline = ${colors.primary}
-click-left = playerctl -p spotify play-pause
+click-left = playerctl play-pause
 
 [module/spotify-next]
 type = custom/script
-exec = echo "  "
+exec = echo ""
 format = <label>
 format-underline = ${colors.primary}
 format-margin-right = ${constants.margin}
-click-left = playerctl -p spotify next
+click-left = playerctl next
 
 [module/redshift]
 type = custom/script
@@ -195,10 +199,11 @@ format-padding = ${constants.padding}
 label-foreground = ${colors.foreground}
 format-margin = ${constants.margin}
 
-exec = ddcutil getvcp 10 | grep value | sed 's/, max.*/%/g;s/.*value = *//g' 2> /dev/null
+exec = ddcutil getvcp 10 2> /dev/null | grep value | sed 's/, max.*/%/g;s/.*value = *//g'
 interval = 1
-scroll-up = ddcutil setvcp 10 + 5 
+scroll-up = ddcutil setvcp 10 + 5
 scroll-down = ddcutil setvcp 10 - 5
+click-left = echo "bla"
 
 [module/xkeyboardbutbetter]
 type = custom/script
@@ -214,59 +219,6 @@ label-foreground = ${colors.foreground}
 
 exec = setxkbmap -print -verbose 10 | grep -oP '(?<=layout:     ).*'
 click-left = exec $HOME/.config/polybar/scripts/toggleKeymap.sh
-
-[module/xwindow]
-type = internal/xwindow
-label = %title:0:30:...%
-
-[module/xkeyboard]
-type = internal/xkeyboard
-;blacklist-0 = num lock
-label-padding = 2
-
-;format-prefix = " "
-;format-prefix-foreground = ${colors.foreground-alt}
-;format-prefix-underline = ${colors.secondary}
-
-label-layout = %layout%
-label-layout-underline = ${colors.primary}
-
-;label-indicator-padding = 2
-;label-indicator-margin = 1
-;label-indicator-background = ${colors.secondary}
-;label-indicator-underline = ${colors.secondary}
-
-[module/filesystem]
-type = internal/fs
-interval = 25
-
-mount-0 = /
-
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
-label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.foreground-alt}
-
-[module/bspwm]
-type = internal/bspwm
-
-label-focused = %index%
-label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
-label-focused-padding = 2
-
-label-occupied = %index%
-label-occupied-padding = 2
-
-label-urgent = %index%!
-label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
-
-label-empty = %index%
-label-empty-foreground = ${colors.foreground-alt}
-label-empty-padding = 2
-
-; Separator in between workspaces
-; label-separator = |
 
 [module/i3]
 type = internal/i3
@@ -307,6 +259,103 @@ label-urgent-padding = ${constants.padding}
 ; Separator in between workspaces
 ; label-separator = |
 
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "CPU: "
+format-prefix-padding-left = ${constants.padding}
+format-prefix-foreground = ${colors.foreground}
+format-underline = ${colors.primary}
+format-margin = ${constants.margin}
+
+label = %percentage:02%%
+label-padding-right = ${constants.padding}
+
+[module/time]
+type = internal/date
+interval = 1
+label-padding = ${constants.padding}
+time = " %H:%M"
+time-alt = " %H:%M:%S"
+
+;format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.primary} 
+;format-margin = ${constants.margin}
+
+label = %time%
+
+[module/date]
+type = internal/date
+interval = 10
+label-padding = 2
+
+date = " %Y-%m-%d"
+;date-alt = "%Y-%m-%d "
+
+;format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.primary}
+format-margin = ${constants.margin}
+
+label = %date%
+
+[module/powermenu2]
+type = custom/script
+exec = echo ""
+format-underline = ${colors.primary}
+format-margin = ${constants.margin}
+format-padding = ${constants.padding}
+click-left = rofi -show power-menu -modi power-menu:rofi-power-menu -font "JetBrains Mono 18" -lines 6 -width 20
+
+[module/separator]
+type = custom/script
+exec = echo " "
+format = <label>
+
+[module/underline]
+type = custom/script
+exec = echo " "
+format = <label>
+format-underline = ${colors.primary}
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+
+
+
+
+
+; ### START OF UNUSED MODULES ###
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
+
+[module/xkeyboard]
+type = internal/xkeyboard
+;blacklist-0 = num lock
+label-padding = 2
+
+;format-prefix = " "
+;format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-underline = ${colors.secondary}
+
+label-layout = %layout%
+label-layout-underline = ${colors.primary}
+
+;label-indicator-padding = 2
+;label-indicator-margin = 1
+;label-indicator-background = ${colors.secondary}
+;label-indicator-underline = ${colors.secondary}
 
 [module/mpd]
 type = internal/mpd
@@ -342,18 +391,6 @@ bar-empty-foreground = ${colors.foreground-alt}
 inherit = module/xbacklight
 type = internal/backlight
 card = intel_backlight
-
-[module/cpu]
-type = internal/cpu
-interval = 2
-format-prefix = "CPU: "
-format-prefix-padding-left = ${constants.padding}
-format-prefix-foreground = ${colors.foreground}
-format-underline = ${colors.primary}
-format-margin = ${constants.margin}
-
-label = %percentage:02%%
-label-padding-right = ${constants.padding}
 
 [module/memory]
 type = internal/memory
@@ -400,35 +437,6 @@ format-disconnected =
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
-
-[module/time]
-type = internal/date
-interval = 1
-label-padding = ${constants.padding}
-time = " %H:%M"
-time-alt = " %H:%M:%S"
-
-;format-prefix = "" 
-;format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.primary} 
-;format-margin = ${constants.margin}
-
-label = %time%
-
-[module/date]
-type = internal/date
-interval = 10
-label-padding = 2
-format-margin = ${constants.margin}
-
-date = " %Y-%m-%d"
-;date-alt = "%Y-%m-%d "
-
-;format-prefix = "hi" 
-;format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.primary} 
-
-label = %date%
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -546,14 +554,6 @@ ramp-1 = 
 ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
 
-[module/powermenu2]
-type = custom/script
-exec = echo ""
-format-underline = ${colors.primary}
-format-margin = ${constants.margin}
-format-padding = ${constants.padding}
-click-left = rofi -show power-menu -modi power-menu:rofi-power-menu -font "JetBrains Mono 18" -lines 6 -width 20
-
 [module/powermenu]
 type = custom/menu
 
@@ -583,22 +583,5 @@ menu-2-0 = power off
 menu-2-0-exec = sudo poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
-
-[module/separator]
-type = custom/script
-exec = echo " "
-format = <label>
-
-[settings]
-screenchange-reload = true
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
-;pseudo-transparency = false
-
-[global/wm]
-margin-top = 5
-margin-bottom = 5
 
 ; vim:ft=dosini
