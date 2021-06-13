@@ -57,7 +57,7 @@ floating_modifier $mod
 bindsym Control+Mod1+t exec st -f "JetBrains Mono:style=Bold:size=12" 
 
 # start dolphin
-bindsym $mod+e exec xdg-open /home/jan
+bindsym $mod+e exec dolphin
 
 # kill focused window
 bindsym $mod+Shift+q kill
