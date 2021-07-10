@@ -1,0 +1,11 @@
+Section "Device"
+	Identifier "Intel Graphics"
+	Driver "intel"
+EndSection
+
+Section "Screen"
+    Identifier     "Screen0"
+    Device         "Intel Graphics"
+    Monitor        "Monitor0"
+EndSection
+
