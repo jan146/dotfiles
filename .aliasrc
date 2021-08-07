@@ -7,6 +7,10 @@ alias ll='ls -alh'
 alias fehbg='~/jan/services/feh.sh'
 alias walbg='~/jan/services/wal.sh'
 alias gcc+='gcc -std=c99 -pedantic -Wall -lm'
+alias virtmgr='eval `dbus-launch --auto-syntax` virt-manager --debug'
+alias diff='diff --color'
+alias getperf='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+alias setperf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 
 # Systemd
 
