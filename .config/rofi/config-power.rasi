@@ -5,13 +5,12 @@ configuration {
     icon-theme:         "Papirus";columns: 2;
 }
 listview {
-	columns: 2;
-	lines: 7;
 	scrollbar: false;
 }
 window {
 	font: "JetBrains Mono 18";
-	width: 1400;
+	height: 500;
+	width: 400;
 }
 @import "~/.cache/wal/colors-rofi-dark"
 /* @import "~/.cache/wal/colors-rofi-light"
