@@ -156,6 +156,10 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+# Moving workspaces between screens 
+bindsym $mod+n move workspace to output left
+bindsym $mod+m move workspace to output right
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -196,13 +200,30 @@ bindsym $mod+r mode "resize"
 #        status_command i3status
 # }
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always dispwin $HOME/jan/"ASUS VG248QE Nvidia.icm"
+#exec_always dispwin $HOME/jan/"ASUS VG248QE Nvidia.icm"
 exec_always xrandr --output DP-2 --mode 1920x1080 -r 144
+
+# Assign workspaces to monitors
+workspace 1 output DP-2
+workspace 2 output HDMI-0
+workspace 3 output DP-2
+workspace 4 output HDMI-0
+workspace 5 output DP-2
+workspace 6 output HDMI-0
+workspace 7 output DP-2
+workspace 8 output HDMI-0
+workspace 9 output DP-2
+workspace 10 output HDMI-0
 
 # Setting gaps between windows and edges
 for_window [class=".*"] border pixel 0
 gaps inner 20
 gaps top 27
+workspace $ws2 gaps top 0
+workspace $ws4 gaps top 0
+workspace $ws6 gaps top 0
+workspace $ws8 gaps top 0
+workspace $ws10 gaps top 0
 
 # Restore wal from previous session
 exec_always wal -R
@@ -217,6 +238,7 @@ bindsym Ctrl+$mod+5 exec $HOME/jan/services/wal.sh schemer2
 # Disable mouse acceleration with libinput
 # exec xinput set-prop 12 'libinput Accel Speed' 0
 # exec xinput set-prop 12 'libinput Accel Profile Enabled' 0, 1
+
 # Turn on peripheral rgb
 exec razer-cli -a -b 100
 
@@ -265,3 +287,4 @@ bindsym --release Shift+Print exec maim -s | xclip -selection clipboard -t image
 
 # Start PulseEffects
 exec_always /usr/bin/pulseeffects --gapplication-service &> /dev/null
+
