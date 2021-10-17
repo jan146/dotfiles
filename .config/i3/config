@@ -240,7 +240,7 @@ bindsym Ctrl+$mod+5 exec $HOME/jan/services/wal.sh schemer2
 # exec xinput set-prop 12 'libinput Accel Profile Enabled' 0, 1
 
 # Turn on peripheral rgb
-exec razer-cli -a -b 100
+# exec razer-cli -a -b 100
 
 # Start picom
 exec_always picom -b 
@@ -288,3 +288,6 @@ bindsym --release Shift+Print exec maim -s | xclip -selection clipboard -t image
 # Start PulseEffects
 exec_always /usr/bin/pulseeffects --gapplication-service &> /dev/null
 
+# Start OpenRGB server
+exec openrgb --server 
+exec sleep 2 && xrdb -query | grep "*color1:" | sed 's/.*#//g' | xargs openrgb -c
