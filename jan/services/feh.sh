@@ -1,1 +1,1 @@
-feh --randomize --bg-fill ~/.local/share/wallpapers/*
+feh --randomize --bg-fill ~/Pictures/wallpapers/*

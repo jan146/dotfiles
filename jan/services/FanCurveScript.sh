@@ -13,7 +13,7 @@ headless=true
 verbose=false
 
 if [ "$headless" = true ] ; then
-    export DISPLAY=:0 XAUTHORITY=/run/lightdm/jan/xauthority
+    export DISPLAY=:0 XAUTHORITY=$HOME/.Xauthority
 fi
 
 #Enable user defined fancontrol for all gpu
