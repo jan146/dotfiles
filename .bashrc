@@ -6,6 +6,7 @@
 [[ $- != *i* ]] && return
 
 source ~/.aliasrc
+source ~/.toolsrc
 PS1='[\u@\h \W]\$ '
 
 export LESS_TERMCAP_mb=$'\e[1;32m'
