@@ -1,0 +1,72 @@
+polybar|warn:  Naming your configuration file 'config' is deprecated, the expected name is 'config.ini'.
+polybar|notice:  Parsing config file: /home/jan/.config/polybar/config
+polybar|error: /home/jan/.config/polybar/config:171: Value 'nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader | awk -F: '{printf "%02i%\n",$1}'' of key 'exec' contains one or more unescaped backslashes, please prepend them with the backslash escape character.
+polybar|error: /home/jan/.config/polybar/config:408: Value 'free --mega | grep Mem | awk '{printf "%02.0f%\n", $3/$2 * 100}'' of key 'exec' contains one or more unescaped backslashes, please prepend them with the backslash escape character.
+polybar|notice:  Listening for IPC messages (PID: 2190)
+polybar|notice:  Loading module 'i3' of type 'internal/i3'
+polybar|notice:  Loading module 'cpu' of type 'internal/cpu'
+polybar|notice:  Loading module 'gpu' of type 'custom/script'
+polybar|notice:  Loading module 'mem' of type 'internal/memory'
+polybar|notice:  Loading module 'separator' of type 'custom/text'
+polybar|notice:  Loading module 'spotify' of type 'custom/script'
+polybar|notice:  Loading module 'spotify-prev' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'spotify-play-pause' of type 'custom/ipc'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'spotify-next' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'time' of type 'internal/date'
+polybar|notice:  Loading module 'pulseaudio-control' of type 'custom/script'
+polybar|notice:  Loading module 'redshift' of type 'custom/script'
+polybar|notice:  Loading module 'brightness' of type 'custom/script'
+polybar|notice:  Loading module 'xkeyboardbutbetter' of type 'custom/script'
+polybar|notice:  Loading module 'date' of type 'internal/date'
+polybar|notice:  Loading module 'powermenu2' of type 'custom/script'
+polybar|notice:  Loaded 20 modules
+polybar|notice:  Loaded font "JetBrains Mono:style=Bold:weight=bold:size=11:antialias=true" (name=JetBrains Mono, offset=2, file=/usr/share/fonts/TTF/JetBrainsMono-Bold.ttf)
+polybar|notice:  Loaded font "Font Awesome:style=Regular:size=11:antialiasing=true" (name=FontAwesome, offset=1, file=/usr/share/fonts/TTF/FontAwesome.ttf)
+polybar|notice:  Loaded font "Material Icons:style=Regular:size=11:antialiasing=true" (name=Material Icons, offset=3, file=/usr/share/fonts/TTF/MaterialIcons-Regular.ttf)
+polybar|notice:  Loaded font "MesloLGS NF:style=Regular:size=11:antialiasing=true" (name=MesloLGS NF, offset=1, file=/usr/share/fonts/TTF/MesloLGS-NF-Regular.ttf)
+polybar|notice:  Loaded font "JoyPixels:scale=10:antialias=true:autohint=true" (name=JoyPixels, offset=1, file=/usr/share/fonts/joypixels/JoyPixels.ttf)
+polybar|notice:  Loaded font "NotoSansCJKsc:weight=bold:size=11" (name=Noto Sans CJK SC, offset=1, file=/usr/share/fonts/OTF/NotoSansCJKsc-Bold.otf)
+polybar|notice:  Loaded font "NotoSansCJKtc:weight=bold:size=11" (name=Noto Sans CJK TC, offset=1, file=/usr/share/fonts/OTF/NotoSansCJKtc-Regular.otf)
+polybar|warn:  background_manager: Failed to get root pixmap, default to black (is there a wallpaper?)
+polybar|warn:  background_manager: Failed to get root pixmap, default to black (is there a wallpaper?)
+polybar|notice:  Received signal(10): User defined signal 1
+polybar|notice:  Termination signal received, shutting down...
+polybar|warn:  Naming your configuration file 'config' is deprecated, the expected name is 'config.ini'.
+polybar|notice:  Parsing config file: /home/jan/.config/polybar/config
+polybar|error: /home/jan/.config/polybar/config:171: Value 'nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader | awk -F: '{printf "%02i%\n",$1}'' of key 'exec' contains one or more unescaped backslashes, please prepend them with the backslash escape character.
+polybar|error: /home/jan/.config/polybar/config:408: Value 'free --mega | grep Mem | awk '{printf "%02.0f%\n", $3/$2 * 100}'' of key 'exec' contains one or more unescaped backslashes, please prepend them with the backslash escape character.
+polybar|notice:  Listening for IPC messages (PID: 2190)
+polybar|notice:  Loading module 'i3' of type 'internal/i3'
+polybar|notice:  Loading module 'cpu' of type 'internal/cpu'
+polybar|notice:  Loading module 'gpu' of type 'custom/script'
+polybar|notice:  Loading module 'mem' of type 'internal/memory'
+polybar|notice:  Loading module 'separator' of type 'custom/text'
+polybar|notice:  Loading module 'spotify' of type 'custom/script'
+polybar|notice:  Loading module 'spotify-prev' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'spotify-play-pause' of type 'custom/ipc'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'spotify-next' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'time' of type 'internal/date'
+polybar|notice:  Loading module 'pulseaudio-control' of type 'custom/script'
+polybar|notice:  Loading module 'redshift' of type 'custom/script'
+polybar|notice:  Loading module 'brightness' of type 'custom/script'
+polybar|notice:  Loading module 'xkeyboardbutbetter' of type 'custom/script'
+polybar|notice:  Loading module 'date' of type 'internal/date'
+polybar|notice:  Loading module 'powermenu2' of type 'custom/script'
+polybar|notice:  Loaded 20 modules
+polybar|notice:  Loaded font "JetBrains Mono:style=Bold:weight=bold:size=11:antialias=true" (name=JetBrains Mono, offset=2, file=/usr/share/fonts/TTF/JetBrainsMono-Bold.ttf)
+polybar|notice:  Loaded font "Font Awesome:style=Regular:size=11:antialiasing=true" (name=FontAwesome, offset=1, file=/usr/share/fonts/TTF/FontAwesome.ttf)
+polybar|notice:  Loaded font "Material Icons:style=Regular:size=11:antialiasing=true" (name=Material Icons, offset=3, file=/usr/share/fonts/TTF/MaterialIcons-Regular.ttf)
+polybar|notice:  Loaded font "MesloLGS NF:style=Regular:size=11:antialiasing=true" (name=MesloLGS NF, offset=1, file=/usr/share/fonts/TTF/MesloLGS-NF-Regular.ttf)
+polybar|notice:  Loaded font "JoyPixels:scale=10:antialias=true:autohint=true" (name=JoyPixels, offset=1, file=/usr/share/fonts/joypixels/JoyPixels.ttf)
+polybar|notice:  Loaded font "NotoSansCJKsc:weight=bold:size=11" (name=Noto Sans CJK SC, offset=1, file=/usr/share/fonts/OTF/NotoSansCJKsc-Bold.otf)
+polybar|notice:  Loaded font "NotoSansCJKtc:weight=bold:size=11" (name=Noto Sans CJK TC, offset=1, file=/usr/share/fonts/OTF/NotoSansCJKtc-Regular.otf)
+polybar|error: Failed to setup tray client removing... (XCB_WINDOW (3))
+polybar|error: Failed to reconfigure tray client, removing... (XCB_WINDOW (3))

@@ -5,6 +5,12 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
+# Enable bash completion
+autoload -U +X bashcompinit && bashcompinit
+
+# Enable azure-cli autocompletion
+# source /opt/azure-cli/az.completion
+
 # Enable colors and change prompts
 # autoload -U colors && colors
 
@@ -41,6 +47,7 @@ key[Shift-Tab]="${terminfo[kcbt]}"
 [[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"     beginning-of-buffer-or-history
 [[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"   end-of-buffer-or-history
 [[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}"  reverse-menu-complete
+
 
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
@@ -148,7 +155,8 @@ export ZSH="/home/jan/.oh-my-zsh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ssh-agent)
+plugins=(git ssh-agent docker)
+zstyle :omz:plugins:ssh-agent identities PC-jan 
 
 source $ZSH/oh-my-zsh.sh
 
@@ -206,4 +214,9 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f "/home/jan/.ghcup/env" ] && source "/home/jan/.ghcup/env" # ghcup-env
+
+# Enable ctrl+backspace
+bindkey '^H' backward-kill-word
 

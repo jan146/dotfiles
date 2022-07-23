@@ -40,7 +40,7 @@ height = 27
 ;offset-y = 1%
 radius = 0
 fixed-center = true
-enable-ipc = true
+enable-ipc = true 
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -65,7 +65,7 @@ font-1 = "Font Awesome:style=Regular:size=11:antialiasing=true;1"
 font-2 = "Material Icons:style=Regular:size=11:antialiasing=true;3"
 font-3 = "MesloLGS NF:style=Regular:size=11:antialiasing=true;1"
 
-font-4 = "JoyPixels:scale=12:antialias=true:autohint=true;1"
+font-4 = "JoyPixels:scale=10:antialias=true:autohint=true;1"
 font-5 = "NotoSansCJKsc:weight=bold:size=11;1"
 font-6 = "NotoSansCJKtc:weight=bold:size=11;1"
 
@@ -75,6 +75,7 @@ font-6 = "NotoSansCJKtc:weight=bold:size=11;1"
 
 modules-left = i3 cpu gpu mem separator spotify spotify-prev underline spotify-play-pause underline spotify-next underline underline 
 modules-center = time
+;modules-right = redshift brightness xkeyboardbutbetter date powermenu2
 modules-right = pulseaudio-control redshift brightness xkeyboardbutbetter date powermenu2
 ;modules-right = pulseaudio-control redshift xkeyboardbutbetter date powermenu2
 
@@ -140,7 +141,7 @@ exec = source ~/.config/polybar/scripts/redshift/env.sh && ~/.config/polybar/scr
 click-left = source ~/.config/polybar/scripts/redshift/env.sh && ~/.config/polybar/scripts/redshift/redshift.sh toggle
 scroll-up = source ~/.config/polybar/scripts/redshift/env.sh && ~/.config/polybar/scripts/redshift/redshift.sh increase
 scroll-down = source ~/.config/polybar/scripts/redshift/env.sh && ~/.config/polybar/scripts/redshift/redshift.sh decrease
-interval=0.5
+interval=1
 
 [module/mem]
 type = internal/memory
@@ -182,10 +183,10 @@ format-margin = ${constants.margin}
 # You can copy-paste your options for each possible action, which is more
 # trouble-free but repetitive, or apply only the relevant ones (for example
 # --sink-blacklist is only needed for next-sink).
-exec = pulseaudio-control --icons-volume " , " --icon-muted " " --sink-nickname "alsa_output.pci-0000_00_1f.3.analog-stereo: Headphones" --sink-nickname "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2: Speakers" --sink-nickname "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra1: Speakers" listen
+exec = pulseaudio-control --icons-volume " , " --icon-muted " " --node-nickname "alsa_output.pci-0000_00_1f.3.analog-stereo:" --node-nickname "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2:" --node-nickname "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra1: Speakers" listen
 click-right = exec pavucontrol &
 click-left = pulseaudio-control togmute
-click-middle = pulseaudio-control --sink-blacklist PulseEffects_mic,PulseEffects_apps next-sink
+click-middle = pulseaudio-control --node-blacklist PulseEffects_mic,PulseEffects_apps next-node
 scroll-up = pulseaudio-control --volume-max 200 up
 scroll-down = pulseaudio-control --volume-max 200 down
 
@@ -198,10 +199,13 @@ format-padding = ${constants.padding}
 label-foreground = ${colors.foreground}
 format-margin = ${constants.margin}
 
-exec = ddcutil getvcp 10 2> /dev/null | grep value | sed 's/, max.*/%/g;s/.*value = *//g'
+exec = tail -n 1 $HOME/.config/polybar/brightness
+;exec = ddcutil --model "VG248" getvcp 10 2> /dev/null | grep value | sed 's/, max.*/%/g;s/.*value = *//g'
 interval = 1
-scroll-up = ddcutil setvcp 10 + 5
-scroll-down = ddcutil setvcp 10 - 5
+
+click-left = $HOME/.config/polybar/scripts/update_brightness.sh
+scroll-up = ddcutil --model "VG248" setvcp 10 + 5 && $HOME/.config/polybar/scripts/update_brightness.sh
+scroll-down = ddcutil --model "VG248" setvcp 10 - 5 && $HOME/.config/polybar/scripts/update_brightness.sh
 
 [module/xkeyboardbutbetter]
 type = custom/script

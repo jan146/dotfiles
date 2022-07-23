@@ -63,3 +63,11 @@ set cmdheight=2
 " Clear search highlighting with CTRL+L
 nnoremap <C-L> :nohl<CR><C-L>
 
+" Set hotkey for paste mode
+set pastetoggle=<F2>
+
+" Configure indent-based folding
+" set foldmethod=indent
+" set foldlevel=0
+" set foldclose=all
+

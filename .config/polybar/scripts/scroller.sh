@@ -23,6 +23,8 @@ PLAYER="playerctl"
 # a single character of text (lower
 # number correspons to faster scrolling).
 DELAY="0.2"
+# DECIMAL_POINT=$(locale -k LC_NUMERIC | grep "decimal_point" | sed 's/.*="//g;s/.$//g')
+# DELAY=0"$DECIMAL_POINT"2
 
 # Set the maximum length of the text.
 # If the text is longer than LENGTH,

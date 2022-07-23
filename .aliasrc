@@ -4,6 +4,7 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
 alias ll='ls -alh'
+alias llc='ls -alh --color=always'
 alias fehbg='~/jan/services/feh.sh'
 alias walbg='~/jan/services/wal.sh'
 alias gcc+='gcc -std=c99 -pedantic -Wall -lm'
@@ -14,6 +15,7 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rsync='rsync --progress'
+alias xpid="xprop | grep PID | sed 's/.*= //g'"
 
 # Systemd
 
