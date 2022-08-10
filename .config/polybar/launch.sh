@@ -16,4 +16,8 @@ echo "All polybar instances stopped"
 # polybar example -l trace > ~/.config/polybar/log 2>&1 &
 polybar example > ~/.config/polybar/log 2>&1 &
 
+# Set initial bluetooth status
+sleep 3
+$HOME/.config/polybar/scripts/bluetooth.sh update
+
 echo "Polybar launched..."
