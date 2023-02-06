@@ -80,10 +80,11 @@ case $chosen in
         fi
         ;;
     $lock)
-		if [[ -f /usr/bin/i3lock ]]; then
-			i3lock
-		elif [[ -f /usr/bin/betterlockscreen ]]; then
-			betterlockscreen -l
+		if [ "$XDG_SESSION_TYPE" = "wayland" ]
+		then
+			swaylock-custom
+		elif [[ -f /usr/bin/betterlockscreen_rapid ]]; then
+			betterlockscreen_rapid
 		fi
         ;;
     $suspend)

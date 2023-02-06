@@ -3,8 +3,7 @@
 
 Section "ServerLayout"
     Identifier     "Layout0"
-    Screen      0  "Screen0" 0 0
-    Screen      1  "Screen1" 1920 0
+	Screen      0  "Screen0" 0 0
     InputDevice    "Keyboard0" "CoreKeyboard"
     InputDevice    "Mouse0" "CorePointer"
 EndSection
@@ -28,30 +27,16 @@ Section "InputDevice"
 EndSection
 
 Section "Monitor"
-    Identifier     "DP"
-	Modeline	   "1920x1080_144.00"  452.50  1920 2088 2296 2672  1080 1083 1088 1177 -hsync +vsync
-	Option		   "PrefferedMode" "1920x1080"
-	Option		   "LeftOf" "HDMI"
-	Option		   "primary" "true"
-	Option		   "Primary" "1"
-    Option         "DPMS" "true"
-EndSection
-
-Section "Monitor"
-    Identifier     "HDMI"
-	Modeline	   "1680x1050_60.00"  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync
-	Option		   "PrefferedMode" "1680x1050"
-	Option		   "RightOf" "DP"
-	Option		   "primary" "false"
-    Option         "DPMS" "true"
+    Identifier     "Monitor0"
+    VendorName     "Unknown"
+    ModelName      "Unknown"
+    Option         "DPMS"
 EndSection
 
 Section "Device"
-    Identifier     "Device0"
-    Driver         "nvidia"
+	Identifier     "Device0"
+	Driver         "nvidia"
     VendorName     "NVIDIA Corporation"
-	Option		   "Monitor-DP2" "DP"
-	Option		   "Monitor-HDMI0" "HDMI"
 EndSection
 
 Section "Files"
@@ -62,17 +47,12 @@ EndSection
 Section "Screen"
     Identifier     "Screen0"
     Device         "Device0"
-    Monitor        "DP"
+    Monitor        "Monitor0"
     DefaultDepth    24
+    Option         "metamodes" "DP-2: 1920x1080_144 +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, HDMI-0: nvidia-auto-select +1920+0"
     Option         "Coolbits" "12"
     SubSection     "Display"
         Depth       24
     EndSubSection
-EndSection
-
-Section "Screen"
-    Identifier     "Screen1"
-    Device         "Device0"
-    Monitor        "HDMI"
 EndSection
 

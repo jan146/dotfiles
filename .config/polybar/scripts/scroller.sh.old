@@ -23,17 +23,13 @@ PLAYER="playerctl"
 # a single character of text (lower
 # number correspons to faster scrolling).
 DELAY="0.2"
-
-# if you get errors for an invalid parameter,
-# try the solution below
-# by uncommenting the next two lines
 # DECIMAL_POINT=$(locale -k LC_NUMERIC | grep "decimal_point" | sed 's/.*="//g;s/.$//g')
 # DELAY=0"$DECIMAL_POINT"2
 
 # Set the maximum length of the text.
 # If the text is longer than LENGTH,
 # it will rotate, otherwise it will not.
-LENGTH="70"
+LENGTH="40"
 
 # If force is set to "1", the text
 # will rotate, even if it is not
@@ -72,27 +68,20 @@ INTERVAL="5"
 # for every open workspace
 i3="5"
 
-# If you have the workspaces module
-# for waybar, you can set the amount
-# of characters that this module will
-# shrink by for every open workspace
-WAYBAR="0"
-
 ### END OF USER CONFIGURATION ###
 
-if [ "$1" = "--update" ]
-then
+if [ "$1" = "--update" ]; then
 
-    DEST="$2"
+    DEST=$2
 
     GETMETADATA="dbus-send --print-reply \
-    --dest=$DEST \
+    --dest="$DEST" \
     /org/mpris/MediaPlayer2 \
     org.freedesktop.DBus.Properties.Get \
-    string:org.mpris.MediaPlayer2.Player \
-    string:Metadata"
+    string:"org.mpris.MediaPlayer2.Player" \
+    string:"Metadata""
 
-    METADATA="$($GETMETADATA)"
+    METADATA=$(eval $GETMETADATA)
 
     ARTIST=$(
         echo "$METADATA" \
@@ -108,19 +97,15 @@ then
         | sed 's/.*string \"//g;s/.$//g'
     )
     
-    if [ -n "$ARTIST" ]
-    then
-        echo "$ARTIST$MIDDLE$TITLE"
+    if [[ -n "$ARTIST" ]]; then
+        echo "$ARTIST$MIDDLE$TITLE" ; exit 0
     else
-        echo "$TITLE"
+        echo "$TITLE" ; exit 0
     fi
-
-    exit 0
 
 fi
 
-if [ "$1" = "--status" ]
-then
+if [ "$1" = "--status" ]; then
 
     GETDEST="dbus-send --print-reply \
     --dest=org.freedesktop.DBus \
@@ -128,41 +113,36 @@ then
     org.freedesktop.DBus.ListNames \
     | grep mpris \
     | grep $PLAYER \
-    | sed 's/.*string \"//g;s/\"$//g'"
+    | sed 's/.*string \"//g;s/.$//g'"
 
-    DEST=$(sh -c "$GETDEST")
+    DEST=$(eval $GETDEST)
 
-    if [ -n "$DEST" ]
-    then
+    if [[ -n "$DEST" ]]; then
 
         STATUSCOMMAND="dbus-send --print-reply \
-        --dest=$DEST \
+        --dest="$DEST" \
         /org/mpris/MediaPlayer2 \
         org.freedesktop.DBus.Properties.Get \
         string:org.mpris.MediaPlayer2.Player \
         string:PlaybackStatus \
         | grep variant \
-        | sed 's/.*string \"//g;s/\"$//g'"
+        | sed 's/.*string \"//g;s/.$//g'"
 
-        STATUS=$(sh -c "$STATUSCOMMAND" 2> /dev/null)
+        STATUS=$(eval "$STATUSCOMMAND" 2> /dev/null)
         
-        if [ -n "$STATUS" ]
-        then
-            echo "$STATUS $DEST"
+        if [[ -n "$STATUS" ]]; then
+            echo "$STATUS $DEST" ; exit 0
         else
-            echo "OFFLINE"
+            echo "OFFLINE" ; exit 0
         fi
 
     else
-        echo "OFFLINE"
+        echo "OFFLINE" ; exit 0
     fi
-
-    exit 0
 
 fi
 
-if [ "$1" = "--prefix" ]
-then
+if [ "$1" = "--prefix" ]; then
 
     INSTANCE=$(dbus-send --print-reply \
         --dest=org.mpris.MediaPlayer2.playerctld \
@@ -173,7 +153,7 @@ then
         | grep string | head -1 \
         | sed 's/.*Player2\.//g;s/.$//g;s/\..*//g')
 
-    case "$INSTANCE" in
+    case $INSTANCE in
         chrom*)
             echo -n "";;
         firefox)
@@ -193,39 +173,20 @@ DIR="$(dirname "$(readlink -f "$0")")"
 RUNCOMMAND="playerctl-scroller \
     -l $LENGTH \
     -d $DELAY -u $INTERVAL \
+    -i $PID \
     -p $PLAYER \
+    -m \"$MODULE\" \
     -r \"$DIR/scroller.sh\" \
     -s \"$SEPARATOR\""
 
-if [ -n "$PID" ]
-then
-    RUNCOMMAND="$RUNCOMMAND -i $PID"
-fi
-
-if [ -n "$MODULE" ]
-then
-    RUNCOMMAND="$RUNCOMMAND -m \"$MODULE\""
-fi
-
-if [ -n "$FORCE" ] && [ "$FORCE" = "1" ]
-then
+if [ $FORCE = "1" ]; then
     RUNCOMMAND="$RUNCOMMAND -f"
 fi
-
-if [ -n "$i3" ] && [ "$i3" -gt "0" ]
-then
+if [ $i3 -gt "0" ]; then
     RUNCOMMAND="$RUNCOMMAND -3 $i3"
 fi
-
-if [ -n "$WAYBAR" ] && [ "$WAYBAR" -gt "0" ]
-then
-	RUNCOMMAND="$RUNCOMMAND -w $WAYBAR"
-fi
-
-if [ -n "$ICONS" ] && [ "$ICONS" = "1" ]
-then
+if [ $ICONS = "1" ]; then
     RUNCOMMAND="$RUNCOMMAND -o"
 fi
 
-sh -c "$RUNCOMMAND"
-
+eval $RUNCOMMAND

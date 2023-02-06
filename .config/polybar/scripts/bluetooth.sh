@@ -60,7 +60,10 @@ updatePolybar() {
 main() {
 
 	getDeviceStatus
-	if [ "$1" = "update" ]
+	if [ "$1" = "status" ]
+	then
+		echo "$DEVICE_STATUS"
+	elif [ "$1" = "update" ]
 	then
 		updatePolybar "$*"
 	elif [ "$1" = "toggle" ]

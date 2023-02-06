@@ -1,0 +1,1 @@
+/home/jan/.config/polybar/scripts/update_brightness.sh

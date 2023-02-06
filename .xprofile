@@ -1,0 +1,3 @@
+#!/bin/sh
+# LightDM sources this on login
+[ -f ~/.zprofile ] && . ~/.zprofile

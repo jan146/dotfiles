@@ -11,8 +11,8 @@ BAR="example"
 # bar that is defined above this.
 # Leave blank to disable play/pause
 # button functionality.
-# MODULE=""
-MODULE="spotify-play-pause"
+MODULE=""
+# MODULE="spotify-play-pause"
 
 # Set the name of desired mpris player,
 # such as firefox, spotify, chromium,
@@ -33,7 +33,7 @@ DELAY="0.2"
 # Set the maximum length of the text.
 # If the text is longer than LENGTH,
 # it will rotate, otherwise it will not.
-LENGTH="70"
+LENGTH="50"
 
 # If force is set to "1", the text
 # will rotate, even if it is not
@@ -70,13 +70,13 @@ INTERVAL="5"
 # you can set the amount of characters
 # that this module will shrink by
 # for every open workspace
-i3="5"
+i3="0"
 
 # If you have the workspaces module
 # for waybar, you can set the amount
 # of characters that this module will
 # shrink by for every open workspace
-WAYBAR="0"
+WAYBAR="5"
 
 ### END OF USER CONFIGURATION ###
 
@@ -219,7 +219,7 @@ fi
 
 if [ -n "$WAYBAR" ] && [ "$WAYBAR" -gt "0" ]
 then
-	RUNCOMMAND="$RUNCOMMAND -w $WAYBAR"
+    RUNCOMMAND="$RUNCOMMAND -w $WAYBAR"
 fi
 
 if [ -n "$ICONS" ] && [ "$ICONS" = "1" ]

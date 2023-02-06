@@ -155,7 +155,7 @@ export ZSH="/home/jan/.oh-my-zsh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ssh-agent docker)
+plugins=(git ssh-agent docker vi-mode)
 zstyle :omz:plugins:ssh-agent identities PC-jan 
 
 source $ZSH/oh-my-zsh.sh
@@ -201,8 +201,8 @@ fi
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=3000
+SAVEHIST=3000
 # bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -219,4 +219,10 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 # Enable ctrl+backspace
 bindkey '^H' backward-kill-word
+
+# Add user binaries to PATH
+export PATH="/home/$USER/.local/bin:$PATH"
+
+# Enable distrobox
+source /usr/share/bash-completion/completions/distrobox*
 

@@ -1,0 +1,1 @@
+/home/jan/.config/polybar/scripts/get_spotify_status.sh
