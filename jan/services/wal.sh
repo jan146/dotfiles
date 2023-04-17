@@ -63,8 +63,9 @@ fi
 # /bin/bash ~/.config/JetBrains/"IdeaIC2020.3"/intellijPywal/intellijPywalGen.sh ~/.config/JetBrains/"IdeaIC2020.3"
 
 # Konsole (requires restart)
-# ln ~/.cache/wal/colors-konsole.colorscheme ~/.local/share/konsole
-# /usr/bin/python $HOME/jan/services/konsoleTransparency.py
+# KONSOLE_DIR="$HOME/.local/share/konsole"
+# ln ~/.cache/wal/colors-konsole.colorscheme "$KONSOLE_DIR"
+# sed 's/Opacity=.*/Opacity=0.7/g' "$KONSOLE_DIR/colors-konsole.colorscheme" > "$KONSOLE_DIR/colors-konsole-with-opacity.colorscheme"
 
 # Discord
 # wal-discord -b $1; beautifuldiscord --css $HOME/.cache/wal-discord/style.css
