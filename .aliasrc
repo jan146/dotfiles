@@ -10,12 +10,14 @@ alias walbg='~/jan/services/wal.sh'
 alias gcc+='gcc -std=c99 -pedantic -Wall -lm'
 alias virtmgr='eval `dbus-launch --auto-syntax` virt-manager --debug'
 alias diff='diff --color'
-alias xclipboard='xclip -selection clipboard'
+alias xcopy='xclip -selection clipboard'
+alias xpaste='xclip -o -selection clipboard'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rsync='rsync --progress'
 alias xpid="xprop | grep PID | sed 's/.*= //g'"
+alias wlpid="wlprop | jq '.pid'"
 alias swaypid="swayinfo | grep pid | sed 's/.*=//'"
 alias ffmpeg="ffmpeg -hide_banner"
 alias ffprobe="ffprobe -hide_banner"
