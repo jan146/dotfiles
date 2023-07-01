@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# command(s) to be executed before lock
+BEFORE="openrgb -c 0 &"
+# command(s) to be executed after unlock
+AFTER="openrgb -c $(cat $HOME/.cache/wal/colors | sed -n 's/^#//g;2p') &"
+
+if pgrep -u $UID -x swaylock > /dev/null 2>&1 
+then
+	echo "Swaylock is already active"
+	echo "Exiting ..."
+	exit 1
+fi
+
+sh -c "$BEFORE"
+
+swaylock \
+	--screenshots \
+	--clock \
+	--indicator \
+	--indicator-radius 150 \
+	--indicator-thickness 5 \
+	--effect-blur 10x10 \
+	--effect-vignette 0.7:0.7 \
+	--ring-color 00ff0055 \
+	--key-hl-color 00dd00 \
+	--line-color 00ff0000 \
+	--inside-color 000000aa \
+	--separator-color 00000000 \
+	--grace 3 \
+	--grace-no-mouse \
+	--fade-in 0.5 \
+	--show-failed-attempts \
+	--text-color dddddd \
+	--time-effects \
+	--indicator-caps-lock
+
+sh -c "$AFTER"
+

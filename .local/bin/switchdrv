@@ -1,0 +1,85 @@
+# #!/bin/sh
+# switch between Nouveau and Nvidia drivers
+
+# check permissions
+if [ "$EUID" -ne 0 ]
+then
+	echo "This requires higher privileges"
+	exit 1	
+fi
+
+# driver selection prompt
+echo "Select the driver you want to switch to"
+echo "1) Nvidia (proprietary)"
+echo "2) Nouveau (open-source)"
+
+INPUT=$(bash -c "read -n 1 c; echo \$c")	
+while ! [ "$INPUT" = "1" ] && ! [ "$INPUT" = "2" ]
+do
+	echo ""
+	echo "Select the driver you want to switch to"
+	echo "1) Nvidia (proprietary)"
+	echo "2) Nouveau (open-source)"
+	INPUT=$(bash -c "read -n 1 c; echo \$c")	
+done
+
+echo ""
+# echo "input: $INPUT"
+
+if [ "$INPUT" = "1" ]
+then
+	
+	# check for nvidia kernel module
+	if [ -n "$(lsmod | grep nvidia)" ]
+	then
+
+		echo "Nvidia kernel module is already loaded"
+		echo "Proceed anyway? [y/N]"
+
+		INPUT=$(bash -c "read -n 1 c; echo \$c")	
+		echo ""
+		if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
+		then
+			echo "No changes have been made"
+			exit 0
+		fi
+	
+	fi
+
+	# enable nouveau blacklist
+	mv /usr/lib/modprobe.d/nvidia-utils.conf.bak /usr/lib/modprobe.d/nvidia-utils.conf
+
+	# X11 unset nouveau driver
+	mv /etc/X11/xorg.conf.d/20-nouveau.conf /etc/X11/xorg.conf.d/20-nouveau.conf.bak
+	
+elif [ "$INPUT" = "2" ]
+then
+
+	# check for nouveau kernel module
+	if [ -n "$(lsmod | grep nouveau)" ]
+	then
+		
+		echo "Nouveau kernel module is already loaded"
+		echo "Proceed anyway? [y/N]"
+
+		INPUT=$(bash -c "read -n 1 c; echo \$c")	
+		echo ""
+		if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
+		then
+			echo "No changes have been made"
+			exit 0
+		fi
+	
+	fi
+
+	# disable nouveau blacklist
+	mv /usr/lib/modprobe.d/nvidia-utils.conf /usr/lib/modprobe.d/nvidia-utils.conf.bak
+
+	# X11 set nouveau driver
+	mv /etc/X11/xorg.conf.d/20-nouveau.conf.bak /etc/X11/xorg.conf.d/20-nouveau.conf
+
+fi
+
+echo "Done"
+exit 0
+
