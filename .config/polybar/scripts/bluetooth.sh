@@ -1,9 +1,16 @@
 #!/bin/sh
 
-checkSystemdService() {
+checkService() {
 	
-	SERVICE_STATUS="$(systemctl status bluetooth.service | grep Active | sed 's/.*: //;s/ .*//')"
-	if ! [ "$SERVICE_STATUS" = "active" ]
+	if ls -l /sbin/init | grep -q systemd
+	then
+		SERVICE_STATUS="$(systemctl status bluetooth.service | grep Active | sed 's/.*: //;s/ .*//')"
+	elif ls -l /sbin/init | grep -q openrc
+	then
+		SERVICE_STATUS="$(rc-service bluetoothd status | grep status | sed 's/.*: //g')"
+	fi
+
+	if ! [ "$SERVICE_STATUS" = "active" ] && ! [ "$SERVICE_STATUS" = "started" ]
 	then
 		echo "TBT: service unavailable"
 		exit 1
@@ -77,6 +84,7 @@ main() {
 
 }
 
-checkSystemdService
+rfkill unblock bluetooth
+checkService
 main "$*"
 

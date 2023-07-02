@@ -1,0 +1,30 @@
+polybar|notice:  Parsing config file: /home/jan/.config/polybar/config.ini
+polybar|notice:  Listening for IPC messages (PID: 11696)
+polybar|warn:  No monitor specified, using "DP-2"
+polybar|notice:  Loading module 'i3' of type 'internal/i3'
+polybar|notice:  Loading module 'cpu' of type 'internal/cpu'
+polybar|notice:  Loading module 'gpu' of type 'custom/script'
+polybar|notice:  Loading module 'mem' of type 'internal/memory'
+polybar|notice:  Loading module 'separator' of type 'custom/text'
+polybar|notice:  Loading module 'spotify' of type 'custom/script'
+polybar|notice:  Loading module 'spotify-prev' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'spotify-play-pause' of type 'custom/ipc'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'spotify-next' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'underline' of type 'custom/text'
+polybar|notice:  Loading module 'time' of type 'internal/date'
+polybar|notice:  Loading module 'pipewire-simple' of type 'custom/script'
+polybar|notice:  Loading module 'redshift' of type 'custom/script'
+polybar|notice:  Loading module 'bluetooth' of type 'custom/ipc'
+polybar|notice:  Loading module 'date' of type 'internal/date'
+polybar|notice:  Loading module 'powermenu2' of type 'custom/script'
+polybar|notice:  Loaded 19 modules
+polybar|notice:  Loaded font "JetBrains Mono:style=Bold:weight=bold:size=11:antialias=true" (name=JetBrains Mono, offset=2, file=/usr/share/fonts/jetbrains-mono/ttf/JetBrainsMono-Bold.ttf)
+polybar|notice:  Loaded font "Font Awesome 6 Free:style=Regular:size=11:antialiasing=true" (name=Font Awesome 6 Free, offset=1, file=/usr/share/fonts/TTF/fa-regular-400.ttf)
+polybar|notice:  Loaded font "Material Design Icons:style=Regular:size=13:antialiasing=true" (name=Material Design Icons, offset=3, file=/usr/share/fonts/TTF/MaterialDesignIcons.ttf)
+polybar|notice:  Loaded font "MesloLGS NF:style=Regular:size=10:antialiasing=true" (name=MesloLGS NF, offset=1, file=/usr/share/fonts/TTF/MesloLGS-NF-Regular.ttf)
+polybar|notice:  Loaded font "JoyPixels:scale=10:antialias=true:autohint=true" (name=JoyPixels, offset=1, file=/usr/share/fonts/joypixels/JoyPixels.ttf)
+polybar|notice:  Loaded font "NotoSansCJKsc:weight=bold:size=11" (name=Noto Sans CJK SC, offset=1, file=/usr/share/fonts/noto-cjk/NotoSansCJK-Bold.ttc)
+polybar|notice:  Loaded font "NotoSansCJKtc:weight=bold:size=11" (name=Noto Sans CJK TC, offset=1, file=/usr/share/fonts/noto-cjk/NotoSansCJK-Bold.ttc)
