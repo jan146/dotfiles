@@ -81,11 +81,12 @@ pywalfox update
 # razer-cli -a
 
 # General (all) peripherals
-xrdb -query | grep "*color1:" | sed 's/.*#//g' | xargs openrgb -c 
+openrgb -c $(cat ~/.cache/wal/colors | sed -n "s/^#//g;2p") > /dev/null 2>&1 &
 
 # Dunst
 cp ~/.cache/wal/dunstrc ~/.config/dunst/dunstrc
 killall dunst
+dunst &
 
 # Zathura
 ~/jan/services/wal-zathura.sh > ~/.config/zathura/zathurarc
@@ -104,11 +105,11 @@ fi
 if [ "$XDG_SESSION_TYPE" = "wayland" ]
 then
 	# wayland -> restart waybar
-	$HOME/.config/waybar/launch.sh
+	$HOME/.config/waybar/launch.sh > /dev/null 2>&1 &
 elif [ "$XDG_SESSION_TYPE" = "x11" ]
 then
 	# xorg -> restart polybar
-	$HOME/.config/polybar/launch.sh
+	$HOME/.config/polybar/launch.sh > /dev/null 2>&1 &
 else
 	echo "Can't determine session type" 1>&2
 fi
