@@ -33,5 +33,10 @@ modprobe drm
 modprobe i2c_dev
 
 # Restart Display Manager
-systemctl start lightdm.service
-
+if ls -l /sbin/init | grep -q systemd
+then
+    systemctl start "$DM_SERVICE"
+elif ls -l /sbin/init | grep -q openrc
+then
+    rc-service "$DM_SERVICE" start
+fi

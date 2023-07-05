@@ -6,7 +6,13 @@ set -x
 source "/etc/libvirt/hooks/kvm.conf"
 
 # Stop display manager
-systemctl stop lightdm.service
+if ls -l /sbin/init | grep -q systemd
+then
+    systemctl stop "$DM_SERVICE"
+elif ls -l /sbin/init | grep -q openrc
+then
+    rc-service "$DM_SERVICE" stop
+fi
 
 # Unbind VTconsoles
 echo 0 > /sys/class/vtconsole/vtcon0/bind
@@ -22,13 +28,14 @@ sleep 5
 modprobe -r nvidia_drm
 modprobe -r nvidia_modeset
 modprobe -r drm_kms_helper
+modprobe -r	nvidia_uvm
 modprobe -r	nvidia
 modprobe -r	drm
 modprobe -r i2c_dev
 
 # Unbind the GPU from display driver
-virsh nodedev-detach $VIRSH_GPU_VIDEO 
-virsh nodedev-detach $VIRSH_GPU_AUDIO
+virsh nodedev-detach "$VIRSH_GPU_VIDEO"
+virsh nodedev-detach "$VIRSH_GPU_AUDIO"
 
 # Load VFIO Kernel Module  
 modprobe vfio
