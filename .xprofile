@@ -1,3 +1,5 @@
 #!/bin/sh
-# LightDM sources this on login
+# DM sources this on login
 [ -f ~/.zprofile ] && . ~/.zprofile
+[ -f ~/.xinitrc ] && . ~/.xinitrc
+

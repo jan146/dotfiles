@@ -1,11 +1,43 @@
 Section "Device"
-	Identifier "Intel Graphics"
-	Driver "intel"
+	Identifier	"Intel Graphics"
+	Driver	"intel"
+	Option	"DRI"				"iris"
+	Option	"TearFree"			"false"
+	Option	"TripleBuffer"		"false"
+	Option	"SwapbuffersWait"	"false"
+	Option	"Monitor-HDMI1"		"DVI"
+	Option	"Monitor-HDMI2"		"HDMI"
 EndSection
 
 Section "Screen"
-    Identifier     "Screen0"
-    Device         "Intel Graphics"
-    Monitor        "Monitor0"
+    Identifier		"Screen0"
+    Device			"Intel Graphics"
+    Monitor			"HDMI"
+    Monitor			"DVI"
+	#DefaultDepth	"24"
+	SubSection "Display"
+		Viewport 0 0
+	    Depth 24
+		Virtual 3640 1920
+	EndSubSection
+EndSection
+
+Section "Monitor"
+	Identifier	"HDMI"
+	#ModeLine "2560x1440_60.00"  312.25  2560 2752 3024 3488  1440 1443 1448 1493 -hsync +vsync
+	Option		"PreferredMode" "2560x1440"
+	Option		"Position"		"0 180"
+	Option		"Primary"		"true"
+	VendorName	"Dell"
+EndSection
+
+Section "Monitor"
+	Identifier	"DVI"
+	#Modeline "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
+	Option		"PreferredMode" "1920x1080"
+	Option		"Position"		"2560 0"
+	Option		"Rotate"		"left"
+	#Option		"RightOf"		"HDMI"
+	VendorName	"ASUS"
 EndSection
 
