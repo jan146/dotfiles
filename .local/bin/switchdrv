@@ -1,85 +1,209 @@
-# #!/bin/sh
-# switch between Nouveau and Nvidia drivers
+#!/bin/sh
+# switch between Nouveau, Nvidia and Intel drivers
 
-# check permissions
-if [ "$EUID" -ne 0 ]
-then
-	echo "This requires higher privileges"
-	exit 1	
-fi
+BLACKLIST_FILE_NVIDIA="/etc/modprobe.d/nvidia-blacklist.conf"
+BLACKLIST_FILE_NOUVEAU="/usr/lib/modprobe.d/nvidia-utils.conf"
 
-# driver selection prompt
-echo "Select the driver you want to switch to"
-echo "1) Nvidia (proprietary)"
-echo "2) Nouveau (open-source)"
+XORG_CONF_NVIDIA="/etc/X11/xorg.conf.d/60-nvidia.conf"
+XORG_CONF_NOUVEAU="/etc/X11/xorg.conf.d/30-nouveau.conf"
+XORG_CONF_INTEL="/etc/X11/xorg.conf.d/20-intel.conf"
 
-INPUT=$(bash -c "read -n 1 c; echo \$c")	
-while ! [ "$INPUT" = "1" ] && ! [ "$INPUT" = "2" ]
-do
-	echo ""
+checkPerms() {
+
+	if [ "$(id -u)" -ne 0 ]
+	then
+		echo "This requires higher privileges"
+		exit 1	
+	fi
+
+}
+
+printChoices() {
+
 	echo "Select the driver you want to switch to"
 	echo "1) Nvidia (proprietary)"
 	echo "2) Nouveau (open-source)"
-	INPUT=$(bash -c "read -n 1 c; echo \$c")	
-done
+	echo "3) Intel"
 
-echo ""
-# echo "input: $INPUT"
+}
 
-if [ "$INPUT" = "1" ]
-then
-	
-	# check for nvidia kernel module
-	if [ -n "$(lsmod | grep nvidia)" ]
+backupFile() {
+
+	# check if file ends in .bak
+	if [ "${1}" = "${1%.bak}" ]
 	then
-
-		echo "Nvidia kernel module is already loaded"
-		echo "Proceed anyway? [y/N]"
-
-		INPUT=$(bash -c "read -n 1 c; echo \$c")	
-		echo ""
-		if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
-		then
-			echo "No changes have been made"
-			exit 0
-		fi
-	
+		# doesn't end in .bak
+		echo mv "$1" "${1}.bak"
+		mv "$1" "${1}.bak" > /dev/null 2>&1
+	else
+		# ends in .bak
+		echo mv "$1" "${1%.bak}"
+		mv "$1" "${1%.bak}" > /dev/null 2>&1
 	fi
 
-	# enable nouveau blacklist
-	mv /usr/lib/modprobe.d/nvidia-utils.conf.bak /usr/lib/modprobe.d/nvidia-utils.conf
+}
 
-	# X11 unset nouveau driver
-	mv /etc/X11/xorg.conf.d/20-nouveau.conf /etc/X11/xorg.conf.d/20-nouveau.conf.bak
+unbackupFile() {
+
+	# check if file ends in .bak
+	if [ "${1}" = "${1%.bak}" ]
+	then
+		# doesn't end in .bak
+		echo mv "${1}.bak" "$1"
+		mv "${1}.bak" "$1" > /dev/null 2>&1
+	else
+		# ends in .bak
+		echo mv "$1" "${1%.bak}"
+		mv "$1" "${1%.bak}" > /dev/null 2>&1
+	fi
+
+}
+
+readChar() {
+	# may not work for all shells
+	sh -c "read -n 1 c; echo \$c"
+}
+
+getInput() {
 	
-elif [ "$INPUT" = "2" ]
-then
+	printChoices
+	INPUT=$(readChar)
+	while [ "${#INPUT}" -ne 1 ] || ! echo "$INPUT" | grep -q "[1-3]"
+	do
+		echo ""
+		printChoices
+		INPUT=$(readChar)
+	done
+	echo ""
 
-	# check for nouveau kernel module
-	if [ -n "$(lsmod | grep nouveau)" ]
+}
+
+changeDriver() {
+
+	if [ "$INPUT" = "1" ]
 	then
 		
-		echo "Nouveau kernel module is already loaded"
-		echo "Proceed anyway? [y/N]"
-
-		INPUT=$(bash -c "read -n 1 c; echo \$c")	
-		echo ""
-		if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
+		# check for nvidia kernel module
+		if lsmod | grep -q nvidia
 		then
-			echo "No changes have been made"
-			exit 0
+
+			echo "Nvidia kernel module is already loaded"
+			echo "Proceed anyway? [y/N]"
+
+			INPUT=$(readChar)	
+			echo ""
+			if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
+			then
+				echo "No changes have been made"
+				exit 0
+			fi
+		
 		fi
-	
+
+		# disable nvidia blacklist
+		backupFile "$BLACKLIST_FILE_NVIDIA"
+
+		# enable nouveau blacklist
+		unbackupFile "$BLACKLIST_FILE_NOUVEAU"
+
+		# X11 unset nouveau driver
+		backupFile "$XORG_CONF_NOUVEAU"
+
+		# X11 unset intel driver
+		backupFile "$XORG_CONF_INTEL"
+
+		# X11 set nvidia driver
+		unbackupFile "$XORG_CONF_NVIDIA"
+		
+	elif [ "$INPUT" = "2" ]
+	then
+
+		# check for nouveau kernel module
+		if lsmod | grep -q nouveau
+		then
+			
+			echo "Nouveau kernel module is already loaded"
+			echo "Proceed anyway? [y/N]"
+
+			INPUT=$(readChar)	
+			echo ""
+			if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
+			then
+				echo "No changes have been made"
+				exit 0
+			fi
+		
+		fi
+
+		# disable nouveau blacklist
+		backupFile "$BLACKLIST_FILE_NOUVEAU"
+
+		# enable nvidia blacklist
+		unbackupFile "$BLACKLIST_FILE_NVIDIA"
+
+		# X11 unset intel driver
+		backupFile "$XORG_CONF_INTEL"
+
+		# X11 unset nvidia driver
+		backupFile "$XORG_CONF_NVIDIA"
+
+		# X11 set nouveau driver
+		unbackupFile "$XORG_CONF_NOUVEAU"
+
+	elif [ "$INPUT" = "3" ]
+	then
+
+		# check for intel kernel module
+		if lsmod | grep -q i915
+		then
+
+			echo "Intel kernel module is already loaded"
+			echo "Proceed anyway? [y/N]"
+
+			INPUT=$(readChar)	
+			echo ""
+			if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
+			then
+				echo "No changes have been made"
+				exit 0
+			fi
+
+		fi
+
+		# enable nouveau blacklist
+		unbackupFile "$BLACKLIST_FILE_NOUVEAU"
+
+		# enable nvidia blacklist
+		unbackupFile "$BLACKLIST_FILE_NVIDIA"
+
+		# X11 unset nvidia driver
+		backupFile "$XORG_CONF_NVIDIA"
+
+		# X11 unset nouveau driver
+		backupFile "$XORG_CONF_NOUVEAU"
+
+		# X11 set intel driver
+		unbackupFile "$XORG_CONF_INTEL"
+
 	fi
 
-	# disable nouveau blacklist
-	mv /usr/lib/modprobe.d/nvidia-utils.conf /usr/lib/modprobe.d/nvidia-utils.conf.bak
+}
 
-	# X11 set nouveau driver
-	mv /etc/X11/xorg.conf.d/20-nouveau.conf.bak /etc/X11/xorg.conf.d/20-nouveau.conf
+main() {
+	
+	# check privileges
+	checkPerms
 
-fi
+	# let user choose driver
+	getInput
+	echo ""
+	echo "Chose option $INPUT"
 
-echo "Done"
-exit 0
+	# actually move files around
+	changeDriver
 
+	echo "Done"
+
+}
+
+main
