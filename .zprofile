@@ -16,10 +16,12 @@ then
 	export MOZ_X11_EGL=1
 	if grep LoadModule "/var/log/Xorg.0.log" | grep -q nvidia
 	then
+		export MONITOR=DP-2
 		export LIBVA_DRIVER_NAME=vdpau
 		export VDPAU_DRIVER=nvidia
 	elif grep LoadModule "/var/log/Xorg.0.log" | grep -q intel
 	then
+		export MONITOR=HDMI2
 		export LIBVA_DRIVER_NAME=i965
 		#export LIBVA_DRIVER_NAME=iHD
 		export VDPAU_DRIVER=va_gl
