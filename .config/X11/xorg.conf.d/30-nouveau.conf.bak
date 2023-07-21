@@ -1,0 +1,39 @@
+Section "Device"
+    Identifier	   "Device0"
+    Driver         "nouveau"
+    VendorName     "NVIDIA Corporation"
+    Option	"Monitor-DP-2"		"DP2"
+	Option	"Monitor-DP-3"		"DP3"
+EndSection
+
+Section "Screen"
+    Identifier		"Screen0"
+    Device			"Device0"
+    Monitor			"DP2"
+    Monitor			"DP3"
+	SubSection "Display"
+		Viewport 0 0
+	    Depth 24
+		Virtual 3640 1920
+	EndSubSection
+EndSection
+
+Section "Monitor"
+	Identifier	"DP2"
+	Modeline "2560x1440_165"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +Hsync -Vsync
+	Option		"PreferredMode" "2560x1440_165"
+	Option		"Position"		"0 180"
+	Option		"Primary"		"true"
+	VendorName	"Dell"
+EndSection
+
+Section "Monitor"
+	Identifier	"DP3"
+	Modeline "1920x1080_144"  325.08  1920 1944 1976 2056  1080 1083 1088 1098 +Hsync +Vsync
+	Option		"PreferredMode" "1920x1080_144"
+	Option		"Position"		"2560 0"
+	Option		"Rotate"		"left"
+	#Option		"RightOf"		"DP2"
+	VendorName	"ASUS"
+EndSection
+

@@ -14,7 +14,12 @@ elif [ "$XDG_SESSION_TYPE" = "x11" ]
 then
 	# Check which driver Xorg is using (nvidia or intel)
 	export MOZ_X11_EGL=1
-	if grep LoadModule "/var/log/Xorg.0.log" | grep -q nvidia
+	if grep LoadModule "/var/log/Xorg.0.log" | grep -q nouveau
+	then
+		export MONITOR=DP-2
+		export LIBVA_DRIVER_NAME=nouveau
+		export VDPAU_DRIVER=nouveau
+	elif grep LoadModule "/var/log/Xorg.0.log" | grep -q nvidia
 	then
 		export MONITOR=DP-2
 		export LIBVA_DRIVER_NAME=vdpau
