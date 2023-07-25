@@ -74,3 +74,6 @@ set pastetoggle=<F2>
 " Disable .viminfo file
 set viminfofile=NONE
 
+" Disale netrw history 
+let g:netrw_dirhistmax = 0
+
