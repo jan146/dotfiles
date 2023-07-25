@@ -71,3 +71,6 @@ set pastetoggle=<F2>
 " set foldlevel=0
 " set foldclose=all
 
+" Disable .viminfo file
+set viminfofile=NONE
+
