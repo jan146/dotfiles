@@ -4,10 +4,6 @@
 BLACKLIST_FILE_NVIDIA="/etc/modprobe.d/nvidia-blacklist.conf"
 BLACKLIST_FILE_NOUVEAU="/usr/lib/modprobe.d/nvidia-utils.conf"
 
-XORG_CONF_NVIDIA="/etc/X11/xorg.conf.d/60-nvidia.conf"
-XORG_CONF_NOUVEAU="/etc/X11/xorg.conf.d/30-nouveau.conf"
-XORG_CONF_INTEL="/etc/X11/xorg.conf.d/20-intel.conf"
-
 checkPerms() {
 
 	if [ "$(id -u)" -ne 0 ]
@@ -98,6 +94,14 @@ checkKernelModule() {
 
 }
 
+updateGpuSymlink() {
+
+	cd "/usr/local/gpu" && \
+		rm driver && \
+		ln -s "$1" "driver"
+
+}
+
 changeDriver() {
 
 	if [ "$INPUT" = "1" ]
@@ -106,20 +110,14 @@ changeDriver() {
 		# check for nvidia kernel module
 		checkKernelModule "nvidia"
 
+		# update gpu driver symlink
+		updateGpuSymlink "nvidia"
+
 		# disable nvidia blacklist
 		backupFile "$BLACKLIST_FILE_NVIDIA"
 
 		# enable nouveau blacklist
 		unbackupFile "$BLACKLIST_FILE_NOUVEAU"
-
-		# X11 unset nouveau driver
-		backupFile "$XORG_CONF_NOUVEAU"
-
-		# X11 unset intel driver
-		backupFile "$XORG_CONF_INTEL"
-
-		# X11 set nvidia driver
-		unbackupFile "$XORG_CONF_NVIDIA"
 		
 	elif [ "$INPUT" = "2" ]
 	then
@@ -127,20 +125,14 @@ changeDriver() {
 		# check for nouveau kernel module
 		checkKernelModule "nouveau"
 
+		# update gpu driver symlink
+		updateGpuSymlink "nouveau"
+
 		# disable nouveau blacklist
 		backupFile "$BLACKLIST_FILE_NOUVEAU"
 
 		# enable nvidia blacklist
 		unbackupFile "$BLACKLIST_FILE_NVIDIA"
-
-		# X11 unset intel driver
-		backupFile "$XORG_CONF_INTEL"
-
-		# X11 unset nvidia driver
-		backupFile "$XORG_CONF_NVIDIA"
-
-		# X11 set nouveau driver
-		unbackupFile "$XORG_CONF_NOUVEAU"
 
 	elif [ "$INPUT" = "3" ]
 	then
@@ -148,20 +140,14 @@ changeDriver() {
 		# check for intel kernel module
 		checkKernelModule "i915"
 
+		# update gpu driver symlink
+		updateGpuSymlink "i915"
+
 		# enable nouveau blacklist
 		unbackupFile "$BLACKLIST_FILE_NOUVEAU"
 
 		# enable nvidia blacklist
 		unbackupFile "$BLACKLIST_FILE_NVIDIA"
-
-		# X11 unset nvidia driver
-		backupFile "$XORG_CONF_NVIDIA"
-
-		# X11 unset nouveau driver
-		backupFile "$XORG_CONF_NOUVEAU"
-
-		# X11 set intel driver
-		unbackupFile "$XORG_CONF_INTEL"
 
 	fi
 
