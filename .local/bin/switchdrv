@@ -78,27 +78,33 @@ getInput() {
 
 }
 
+checkKernelModule() {
+
+	if lsmod | grep -q "$1"
+	then
+
+		echo "$1 kernel module is already loaded"
+		echo "Proceed anyway? [y/N]"
+
+		INPUT=$(readChar)	
+		echo ""
+		if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
+		then
+			echo "No changes have been made"
+			exit 0
+		fi
+	
+	fi
+
+}
+
 changeDriver() {
 
 	if [ "$INPUT" = "1" ]
 	then
 		
 		# check for nvidia kernel module
-		if lsmod | grep -q nvidia
-		then
-
-			echo "Nvidia kernel module is already loaded"
-			echo "Proceed anyway? [y/N]"
-
-			INPUT=$(readChar)	
-			echo ""
-			if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
-			then
-				echo "No changes have been made"
-				exit 0
-			fi
-		
-		fi
+		checkKernelModule "nvidia"
 
 		# disable nvidia blacklist
 		backupFile "$BLACKLIST_FILE_NVIDIA"
@@ -119,21 +125,7 @@ changeDriver() {
 	then
 
 		# check for nouveau kernel module
-		if lsmod | grep -q nouveau
-		then
-			
-			echo "Nouveau kernel module is already loaded"
-			echo "Proceed anyway? [y/N]"
-
-			INPUT=$(readChar)	
-			echo ""
-			if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
-			then
-				echo "No changes have been made"
-				exit 0
-			fi
-		
-		fi
+		checkKernelModule "nouveau"
 
 		# disable nouveau blacklist
 		backupFile "$BLACKLIST_FILE_NOUVEAU"
@@ -154,21 +146,7 @@ changeDriver() {
 	then
 
 		# check for intel kernel module
-		if lsmod | grep -q i915
-		then
-
-			echo "Intel kernel module is already loaded"
-			echo "Proceed anyway? [y/N]"
-
-			INPUT=$(readChar)	
-			echo ""
-			if ! [ "$INPUT" = "y" ] && ! [ "$INPUT" = "Y" ]
-			then
-				echo "No changes have been made"
-				exit 0
-			fi
-
-		fi
+		checkKernelModule "i915"
 
 		# enable nouveau blacklist
 		unbackupFile "$BLACKLIST_FILE_NOUVEAU"
