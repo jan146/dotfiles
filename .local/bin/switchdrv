@@ -97,8 +97,7 @@ checkKernelModule() {
 updateGpuSymlink() {
 
 	cd "/usr/local/gpu" && \
-		rm driver && \
-		ln -s "$1" "driver"
+		( rm driver 2> /dev/null ; ln -s "$1" "driver" )
 
 }
 
