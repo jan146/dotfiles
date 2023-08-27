@@ -71,7 +71,7 @@ revert() {
 	# Rebind VT consoles
 	echo 1 > /sys/class/vtconsole/vtcon0/bind
 	# Some machines might have more than 1 virtual console. Add a line for each corresponding VTConsole
-	echo 0 > /sys/class/vtconsole/vtcon1/bind
+	echo 1 > /sys/class/vtconsole/vtcon1/bind
 
 	# Read nvidia gpu info
 	nvidia-xconfig --query-gpu-info > /dev/null 2>&1
