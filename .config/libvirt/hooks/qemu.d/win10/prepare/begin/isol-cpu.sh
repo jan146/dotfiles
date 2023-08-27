@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 # Based on Thomas Lindroth's shell script which sets up host for VM: http://sprunge.us/JUfS
 
 TOTAL_CORES="0-5"
@@ -23,18 +23,22 @@ unshield_vm () {
 
 systemd_method () {
 
-	if [ "$VM_ACTION" = "started" ]
+	if [ "$VM_ACTION" = "prepare" ]
 	then
+		echo "Started cpu isolation for domain \"${VM_NAME}\""
 		systemctl set-property --runtime -- system.slice AllowedCPUs="$HOST_CORES"
 		systemctl set-property --runtime -- user.slice AllowedCPUs="$HOST_CORES"
 		systemctl set-property --runtime -- init.scope AllowedCPUs="$HOST_CORES"
-	fi
-
-	if [ "$VM_ACTION" = "release" ]
+		echo "Finished cpu isolation for domain \"${VM_NAME}\""
+	elif [ "$VM_ACTION" = "release" ]
 	then
+		echo "Started cpu un-isolation for domain \"${VM_NAME}\""
 		systemctl set-property --runtime -- system.slice AllowedCPUs="$TOTAL_CORES"
 		systemctl set-property --runtime -- user.slice AllowedCPUs="$TOTAL_CORES"
 		systemctl set-property --runtime -- init.scope AllowedCPUs="$TOTAL_CORES"
+		echo "Finished cpu un-isolation for domain \"${VM_NAME}\""
+	else
+		echo "Invalid VM action" 2>&1
 	fi
 
 }
@@ -46,6 +50,7 @@ cset_method() {
 
 	if [ "$VM_ACTION" = "prepare" ]
 	then
+		echo "Started cpu isolation for domain \"${VM_NAME}\""
 		shield_vm
 		# Reduce VM jitter: https://www.kernel.org/doc/Documentation/kernel-per-CPU-kthreads.txt
 		sysctl vm.stat_interval=120
@@ -61,10 +66,10 @@ cset_method() {
 		echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 		echo 0 > /sys/bus/workqueue/devices/writeback/numa
 		>&2 echo "VMs Shielded"
-	fi
-
-	if [ "$VM_ACTION" = "release" ]
+		echo "Finished cpu isolation for domain \"${VM_NAME}\""
+	elif [ "$VM_ACTION" = "release" ]
 	then
+		echo "Started cpu un-isolation for domain \"${VM_NAME}\""
 		# All VMs offline
 		sysctl vm.stat_interval=1
 		sysctl -w kernel.watchdog=1
@@ -73,13 +78,16 @@ cset_method() {
 		echo powersave | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 		echo 1 > /sys/bus/workqueue/devices/writeback/numa
 		>&2 echo "VMs UnShielded"
+		echo "Finished cpu un-isolation for domain \"${VM_NAME}\""
+	else
+		echo "Invalid VM action" 2>&1
 	fi
 
 }
 
 main() {
 
-	if ls -l /sbin/init | grep -q systemd
+	if readlink /sbin/init | grep -q systemd
 	then
 		systemd_method
 	else

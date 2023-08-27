@@ -16,26 +16,18 @@ MISC="${@:4}"
 
 BASEDIR="$(dirname $0)"
 
-LOG_FILE="$BASEDIR/hooks.log"
-
 HOOKPATH="$BASEDIR/qemu.d/$GUEST_NAME/$HOOK_NAME/$STATE_NAME"
 
 set -e # If a script exits with an error, we should as well.
 
-# Clear log file on prepare/begin
-if [ "$HOOK_NAME/$STATE_NAME" = "prepare/begin" ]
-then
-    echo "" > "$LOG_FILE"
-fi
-
 # check if it's a non-empty executable file
-if [ -f "$HOOKPATH" ] && [ -s "$HOOKPATH"] && [ -x "$HOOKPATH" ]; then
-    eval \"$HOOKPATH\" "$@" >> "$BASEDIR/hooks.log" 2>&1
+if [ -f "$HOOKPATH" ] && [ -s "$HOOKPATH" ] && [ -x "$HOOKPATH" ]; then
+    eval \"$HOOKPATH\" "$@" >> "${HOOKPATH}.log" 2>&1
 elif [ -d "$HOOKPATH" ]; then
     while read file; do
         # check for null string
         if [ ! -z "$file" ]; then
-          eval \"$file\" "$@" >> "$BASEDIR/hooks.log" 2>&1
+          eval \"$file\" "$@" > "${file}.log" 2>&1
         fi
     done <<< "$(find -L "$HOOKPATH" -maxdepth 1 -type f -executable -print;)"
 fi

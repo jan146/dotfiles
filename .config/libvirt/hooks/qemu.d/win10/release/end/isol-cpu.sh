@@ -1,0 +1,1 @@
+../../prepare/begin/isol-cpu.sh
