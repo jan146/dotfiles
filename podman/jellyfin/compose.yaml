@@ -1,0 +1,55 @@
+services:
+  jellyfin:
+    container_name: "${CONTAINER_NAME}"
+    image: docker.io/jellyfin/jellyfin:latest
+    user: "${USER_ID}:${GROUP_ID}"
+    userns_mode: "keep-id:uid=${USER_ID},gid=${GROUP_ID}"
+    labels:
+      - "io.containers.autoupdate=registry"
+    ports:
+      - "8096:8096"
+    devices:
+      - "${DEVICES}"
+    volumes:
+      - jellyfin-config:/config:Z
+      - jellyfin-cache:/cache:Z
+      - mnt-hdd:/media/hdd
+      - mnt-ssd:/media/ssd
+    networks:
+      - net-jellyfin
+
+volumes:
+  mnt-hdd:
+    name: "mnt-hdd"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/mnt/hdd/media"
+  mnt-ssd:
+    name: "mnt-ssd"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/mnt/ssd/media"
+  jellyfin-config:
+    name: "vol-jellyfin-config"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/jellyfin/config"
+  jellyfin-cache:
+    name: "vol-jellyfin-cache"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/jellyfin/cache"
+ 
+networks:
+  net-jellyfin:
+    name: net-jellyfin
+    driver: bridge
+

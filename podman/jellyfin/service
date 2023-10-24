@@ -1,0 +1,49 @@
+#!/sbin/openrc-run
+
+supervisor=supervise-daemon
+USER=jellyfin
+GROUP=jellyfin
+COMPOSE_FILE="/var/lib/jellyfin/compose.yaml"
+
+CHECK_NVIDIA_PATH="/dev/nvidia-modeset"
+DEVICES_NVIDIA="nvidia.com/gpu=all"
+DEVICE_PATH_CARD_NONVIDIA="/dev/dri/by-path/pci-0000:00:02.0-card"
+DEVICE_PATH_RENDER_NONVIDIA="/dev/dri/by-path/pci-0000:00:02.0-render"
+# DEVICE_PATH_CARD_NVIDIA="/dev/dri/by-path/pci-0000:01:00.0-card"
+# DEVICE_PATH_RENDER_NVIDIA="/dev/dri/by-path/pci-0000:01:00.0-render"
+DEVICE_PATH_CARD_TARGET="/dev/dri/card0"
+DEVICE_PATH_RENDER_TARGET="/dev/dri/renderD128"
+CONTAINER_NAME_NONVIDIA=jellyfin
+CONTAINER_NAME_NVIDIA=jellyfin_nvidia
+
+export CONTAINER_NAME
+export DEVICES
+export USER_ID
+export GROUP_ID
+
+command_user="${USER}:${GROUP}"
+command="podman-compose"
+command_args="-f ${COMPOSE_FILE} up"
+output_log="/var/log/jellyfin/output.log"
+error_log="/var/log/jellyfin/output.err"
+
+start_pre() {
+
+	# get UID and GID
+	USER_ID=$(id -u ${USER})
+	GROUP_ID=$(id -g ${GROUP})
+
+	# set container name and devices
+	if ls "${CHECK_NVIDIA_PATH}" > /dev/null 2>&1
+	then
+		CONTAINER_NAME=${CONTAINER_NAME_NVIDIA}
+		DEVICES="$DEVICES_NVIDIA"
+	else
+		CONTAINER_NAME=${CONTAINER_NAME_NONVIDIA}
+		DEVICE_PATH_CARD_NONVIDIA=$(readlink -f ${DEVICE_PATH_CARD_NONVIDIA})
+		DEVICE_PATH_RENDER_NONVIDIA=$(readlink -f ${DEVICE_PATH_RENDER_NONVIDIA})
+		DEVICES="${DEVICE_PATH_CARD_NONVIDIA},${DEVICE_PATH_CARD_TARGET}:${DEVICE_PATH_RENDER_NONVIDIA},${DEVICE_PATH_RENDER_TARGET}"
+	fi
+	return 0
+
+}

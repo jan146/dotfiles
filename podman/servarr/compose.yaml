@@ -1,0 +1,115 @@
+services:
+  radarr:
+    container_name: radarr
+    image: ghcr.io/hotio/radarr:nightly
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - UMASK=002
+      - TZ="Etc/UTC"
+    labels:
+      - "io.containers.autoupdate=registry"
+    ports:
+      - "7878:7878"
+    volumes:
+      - radarr-config:/config
+      - radarr-data:/data
+      - mnt-hdd:/media/hdd
+      - mnt-ssd:/media/ssd
+    networks:
+      - net-servarr
+  jackett:
+    container_name: jackett
+    image: ghcr.io/hotio/jackett
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - UMASK=002
+      - TZ="Etc/UTC"
+    labels:
+      - "io.containers.autoupdate=registry"
+    ports:
+      - "9117:9117"
+    volumes:
+      - jackett-config:/config
+      - mnt-hdd:/media/hdd
+      - mnt-ssd:/media/ssd
+    networks:
+      - net-servarr
+  sonarr:
+    container_name: sonarr
+    image: ghcr.io/hotio/sonarr:nightly
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - UMASK=002
+      - TZ="Etc/UTC"
+    labels:
+      - "io.containers.autoupdate=registry"
+    ports:
+      - "8989:8989"
+    volumes:
+      - sonarr-config:/config
+      - sonarr-data:/data
+      - mnt-hdd:/media/hdd
+      - mnt-ssd:/media/ssd
+    networks:
+      - net-servarr
+    
+volumes:
+  mnt-hdd:
+    name: "mnt-hdd"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/mnt/hdd/media"
+  mnt-ssd:
+    name: "mnt-ssd"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/mnt/ssd/media"
+  radarr-config:
+    name: "vol-radarr-config"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/radarr/config"
+  radarr-data:
+    name: "vol-radarr-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/radarr/data"
+  jackett-config:
+    name: "vol-jackett-config"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/jackett/config"
+  sonarr-config:
+    name: "vol-sonarr-config"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/sonarr/config"
+  sonarr-data:
+    name: "vol-sonarr-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/sonarr/data"
+
+networks:
+  net-servarr:
+    name: net-servarr
+    driver: bridge
+
+

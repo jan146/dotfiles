@@ -1,0 +1,23 @@
+#!/sbin/openrc-run
+
+supervisor=supervise-daemon
+USER=servarr
+GROUP=servarr
+COMPOSE_FILE="/var/lib/servarr/compose.yaml"
+
+command_user="${USER}:${GROUP}"
+command="podman-compose"
+command_args="-f ${COMPOSE_FILE} up"
+output_log="/var/log/servarr/output.log"
+error_log="/var/log/servarr/output.err"
+
+export USER_ID
+export GROUP_ID
+
+start_pre() {
+
+	USER_ID=$(id -u ${USER})
+	GROUP_ID=$(id -g ${GROUP})
+
+}
+
