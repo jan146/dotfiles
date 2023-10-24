@@ -152,6 +152,22 @@ changeDriver() {
 
 }
 
+runHooks() {
+
+	case "$DRIVER_ID" in
+		1)
+			sh -c "/usr/local/gpu/hooks.sh nvidia" > /dev/null 2>&1 ;;
+		2)
+			sh -c "/usr/local/gpu/hooks.sh nouveau" > /dev/null 2>&1 ;;
+		3)
+			sh -c "/usr/local/gpu/hooks.sh i915" > /dev/null 2>&1 ;;
+		*)
+			echo "${0}: wrong input while running hooks" 1>&2
+			;;
+	esac
+
+}
+
 main() {
 	
 	# check privileges
@@ -161,9 +177,12 @@ main() {
 	getInput
 	echo ""
 	echo "Chose option $INPUT"
+	DRIVER_ID="$INPUT"
 
 	# actually move files around
 	changeDriver
+
+	runHooks
 
 	echo "Done"
 
