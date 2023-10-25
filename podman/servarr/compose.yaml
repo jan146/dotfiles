@@ -55,7 +55,26 @@ services:
       - mnt-ssd:/media/ssd
     networks:
       - net-servarr
-    
+  bazarr:
+    container_name: bazarr
+    image: ghcr.io/hotio/bazarr
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - UMASK=002
+      - TZ=Etc/UTC
+    labels:
+      - "io.containers.autoupdate=registry"
+    ports:
+      - "6767:6767"
+    volumes:
+      - bazarr-config:/config
+      - bazarr-data:/data
+      - mnt-hdd:/media/hdd
+      - mnt-ssd:/media/ssd
+    networks:
+      - net-servarr
+
 volumes:
   mnt-hdd:
     name: "mnt-hdd"
@@ -106,10 +125,23 @@ volumes:
       type: none
       o: bind
       device: "/var/lib/servarr/sonarr/data"
+  bazarr-config:
+    name: "vol-bazarr-config"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/bazarr/config"
+  bazarr-data:
+    name: "vol-bazarr-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/bazarr/data"
 
 networks:
   net-servarr:
     name: net-servarr
     driver: bridge
-
 
