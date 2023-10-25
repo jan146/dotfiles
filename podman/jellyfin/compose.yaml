@@ -6,8 +6,6 @@ services:
     userns_mode: "keep-id:uid=${USER_ID},gid=${GROUP_ID}"
     labels:
       - "io.containers.autoupdate=registry"
-    ports:
-      - "8096:8096"
     devices:
       - "${DEVICES}"
     volumes:
@@ -15,8 +13,7 @@ services:
       - jellyfin-cache:/cache:Z
       - mnt-hdd:/media/hdd
       - mnt-ssd:/media/ssd
-    networks:
-      - net-jellyfin
+    network_mode: host
 
 volumes:
   mnt-hdd:
@@ -48,8 +45,3 @@ volumes:
       o: bind
       device: "/var/lib/jellyfin/cache"
  
-networks:
-  net-jellyfin:
-    name: net-jellyfin
-    driver: bridge
-
