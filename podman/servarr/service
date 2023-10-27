@@ -8,6 +8,8 @@ COMPOSE_FILE="/var/lib/servarr/compose.yaml"
 command_user="${USER}:${GROUP}"
 command="podman-compose"
 command_args="-f ${COMPOSE_FILE} up"
+command_args_background="--daemon"
+pidfile="/run/servarr.pid"
 output_log="/var/log/servarr/output.log"
 error_log="/var/log/servarr/output.err"
 

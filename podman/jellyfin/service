@@ -24,6 +24,8 @@ export GROUP_ID
 command_user="${USER}:${GROUP}"
 command="podman-compose"
 command_args="-f ${COMPOSE_FILE} up"
+command_args_background="--daemon"
+pidfile="/run/jellyfin.pid"
 output_log="/var/log/jellyfin/output.log"
 error_log="/var/log/jellyfin/output.err"
 
