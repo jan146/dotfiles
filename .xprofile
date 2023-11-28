@@ -1,5 +1,0 @@
-#!/bin/sh
-# DM sources this on login
-[ -f ~/.zprofile ] && . ~/.zprofile
-[ -f ~/.xinitrc ] && . ~/.xinitrc
-
