@@ -1,9 +1,10 @@
 #!/sbin/openrc-run
 
+name="${RC_SVCNAME}"
 supervisor=supervise-daemon
 USER=jellyfin
 GROUP=jellyfin
-COMPOSE_FILE="/var/lib/jellyfin/compose.yaml"
+COMPOSE_FILE="/var/lib/${RC_SVCNAME}/compose.yaml"
 
 CHECK_NVIDIA_PATH="/dev/nvidia-modeset"
 DEVICES_NVIDIA="nvidia.com/gpu=all"
@@ -20,14 +21,6 @@ export CONTAINER_NAME
 export DEVICES
 export USER_ID
 export GROUP_ID
-
-command_user="${USER}:${GROUP}"
-command="podman-compose"
-command_args="-f ${COMPOSE_FILE} up"
-command_args_background="--daemon"
-pidfile="/run/jellyfin.pid"
-output_log="/var/log/jellyfin/output.log"
-error_log="/var/log/jellyfin/output.err"
 
 start_pre() {
 
@@ -48,4 +41,40 @@ start_pre() {
 	fi
 	return 0
 
+}
+
+start() {
+
+	ebegin "Starting ${RC_SVCNAME}"
+	# Stop podman-compose down from possible previous stop() invocation
+	${supervisor} "${RC_SVCNAME}" \
+		--stop podman-compose
+	# Start podman-compose up
+	${supervisor} "${RC_SVCNAME}" \
+		--stdout "/var/log/${RC_SVCNAME}/output-up.out" \
+		--stderr "/var/log/${RC_SVCNAME}/output-up.err" \
+		--user "${USER}" --group "${GROUP}" \
+		--start podman-compose -- -f "${COMPOSE_FILE}" up
+	eend $?
+
+}
+
+stop_pre() {
+	start_pre
+}
+
+stop() {
+
+	ebegin "Stopping ${RC_SVCNAME}"
+	# Stop podman-compose up from previous start() invocation
+	${supervisor} "${RC_SVCNAME}" \
+		--stop podman-compose
+	# Start podman-compose down
+	${supervisor} "${RC_SVCNAME}" \
+		--stdout "/var/log/${RC_SVCNAME}/output-down.out" \
+		--stderr "/var/log/${RC_SVCNAME}/output-down.err" \
+		--user "${USER}" --group "${GROUP}" \
+		--start podman-compose -- -f "${COMPOSE_FILE}" down -t 0
+	eend $?
+	
 }

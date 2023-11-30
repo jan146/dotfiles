@@ -1,25 +1,48 @@
 #!/sbin/openrc-run
 
+name="${RC_SVCNAME}"
 supervisor=supervise-daemon
 USER=servarr
 GROUP=servarr
-COMPOSE_FILE="/var/lib/servarr/compose.yaml"
-
-command_user="${USER}:${GROUP}"
-command="podman-compose"
-command_args="-f ${COMPOSE_FILE} up"
-command_args_background="--daemon"
-pidfile="/run/servarr.pid"
-output_log="/var/log/servarr/output.log"
-error_log="/var/log/servarr/output.err"
+COMPOSE_FILE="/var/lib/${RC_SVCNAME}/compose.yaml"
 
 export USER_ID
 export GROUP_ID
 
 start_pre() {
-
 	USER_ID=$(id -u ${USER})
 	GROUP_ID=$(id -g ${GROUP})
+}
+
+start() {
+
+	ebegin "Starting ${RC_SVCNAME}"
+	# Stop podman-compose down from possible previous stop() invocation
+	${supervisor} "${RC_SVCNAME}" \
+		--stop podman-compose
+	# Start podman-compose up
+	${supervisor} "${RC_SVCNAME}" \
+		--stdout "/var/log/${RC_SVCNAME}/output-up.out" \
+		--stderr "/var/log/${RC_SVCNAME}/output-up.err" \
+		--user "${USER}" --group "${GROUP}" \
+		--start podman-compose -- -f "${COMPOSE_FILE}" up
+	eend $?
+
+}
+
+stop() {
+
+	ebegin "Stopping ${RC_SVCNAME}"
+	# Stop podman-compose up from previous start() invocation
+	${supervisor} "${RC_SVCNAME}" \
+		--stop podman-compose
+	# Start podman-compose down
+	${supervisor} "${RC_SVCNAME}" \
+		--stdout "/var/log/${RC_SVCNAME}/output-down.out" \
+		--stderr "/var/log/${RC_SVCNAME}/output-down.err" \
+		--user "${USER}" --group "${GROUP}" \
+		--start podman-compose -- -f "${COMPOSE_FILE}" down -t 0
+	eend $?
 
 }
 
