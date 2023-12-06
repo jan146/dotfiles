@@ -89,7 +89,7 @@ killall dunst
 dunst &
 
 # Zathura
-~/jan/services/wal-zathura.sh > ~/.config/zathura/zathurarc
+~/.local/bin/wal-zathura.sh > ~/.config/zathura/zathurarc
 
 # Spotify
 # spicetify update

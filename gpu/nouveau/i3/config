@@ -242,11 +242,11 @@ exec_always wal -R -n
 exec_always source $HOME/.fehbg
 
 # Shortcuts to run wal
-bindsym Ctrl+$mod+1 exec $HOME/jan/services/wal.sh wal
-bindsym Ctrl+$mod+2 exec $HOME/jan/services/wal.sh colorthief
-bindsym Ctrl+$mod+3 exec $HOME/jan/services/wal.sh colorz
-bindsym Ctrl+$mod+4 exec $HOME/jan/services/wal.sh haishoku
-bindsym Ctrl+$mod+5 exec $HOME/jan/services/wal.sh schemer2
+bindsym Ctrl+$mod+1 exec $HOME/.local/bin/wal.sh wal
+bindsym Ctrl+$mod+2 exec $HOME/.local/bin/wal.sh colorthief
+bindsym Ctrl+$mod+3 exec $HOME/.local/bin/wal.sh colorz
+bindsym Ctrl+$mod+4 exec $HOME/.local/bin/wal.sh haishoku
+bindsym Ctrl+$mod+5 exec $HOME/.local/bin/wal.sh schemer2
 
 # Disable mouse acceleration with libinput
 # exec xinput set-prop 12 'libinput Accel Speed' 0
@@ -258,7 +258,7 @@ bindsym Ctrl+$mod+5 exec $HOME/jan/services/wal.sh schemer2
 # Start picom
 exec_always picom -b 
 # Toggle picom
-bindsym $mod+Shift+p exec $HOME/jan/services/togglePicom.sh 
+bindsym $mod+Shift+p exec $HOME/.local/bin/togglePicom.sh 
 
 # Pywal implementation
 # Set colors from Xresources
