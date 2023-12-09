@@ -25,7 +25,7 @@ start() {
 		--stdout "/var/log/${RC_SVCNAME}/output-up.out" \
 		--stderr "/var/log/${RC_SVCNAME}/output-up.err" \
 		--user "${USER}" --group "${GROUP}" \
-		--start podman-compose -- -f "${COMPOSE_FILE}" up
+		--start podman-compose -- --no-cleanup -f "${COMPOSE_FILE}" up
 	eend $?
 
 }
