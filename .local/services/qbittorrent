@@ -1,0 +1,13 @@
+#!/sbin/openrc-run
+
+supervisor=supervise-daemon
+USER=jan
+GROUP=jan
+
+command_user="${USER}:${GROUP}"
+command="qbittorrent-nox"
+command_args_background="--daemon"
+#command_args=""
+output_log="/var/log/qbittorrent/output.log"
+error_log="/var/log/qbittorrent/output.err"
+
