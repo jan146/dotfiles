@@ -1,0 +1,24 @@
+#!/sbin/openrc-run
+
+name=$RC_SVCNAME
+description="Sunshine is a self-hosted game stream host for Moonlight."
+supervisor="supervise-daemon"
+USER=jan
+GROUP=jan
+
+command="/usr/bin/sunshine"
+command_args="/home/${USER}/.config/sunshine/sunshine.conf"
+command_user="${USER}:${GROUP}"
+pidfile="/var/run/${RC_SVCNAME}.pid"
+output_log="/var/log/${RC_SVCNAME}/output.log"
+error_log="/var/log/${RC_SVCNAME}/output.err"
+
+export DISPLAY=":0"
+export XDG_SESSION_TYPE="x11"
+export XAUTHORITY="/home/${USER}/.Xauthority"
+
+depend() {
+	after xdg-desktop-autostart 
+	use xdg-desktop-autostart 
+}
+
