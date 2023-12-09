@@ -150,14 +150,14 @@ or other application using the libvirt API.
       <source>
         <address domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
       </source>
-      <rom file='/home/jan/vfio/rom/patched.rom'/>
+	  <rom file='/home/jan/.local/vfio/rom/patched.rom'/>
       <address type='pci' domain='0x0000' bus='0x05' slot='0x00' function='0x0'/>
     </hostdev>
     <hostdev mode='subsystem' type='pci' managed='yes'>
       <source>
         <address domain='0x0000' bus='0x01' slot='0x00' function='0x1'/>
       </source>
-      <rom file='/home/jan/vfio/rom/patched.rom'/>
+	  <rom file='/home/jan/.local/vfio/rom/patched.rom'/>
       <address type='pci' domain='0x0000' bus='0x06' slot='0x00' function='0x0'/>
     </hostdev>
     <hostdev mode='subsystem' type='usb' managed='yes'>
