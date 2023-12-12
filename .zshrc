@@ -155,9 +155,10 @@ export ZSH="/home/jan/.oh-my-zsh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ssh-agent docker vi-mode)
-zstyle :omz:plugins:ssh-agent identities PC-jan 
+plugins=(git ssh-agent vi-mode virtualenv podman)
+zstyle :omz:plugins:ssh-agent identities id_dextop 
 
+export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
