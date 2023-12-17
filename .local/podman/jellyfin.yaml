@@ -13,6 +13,7 @@ services:
       - jellyfin-cache:/cache:Z
       - mnt-hdd:/media/hdd:z
       - mnt-ssd:/media/ssd:z
+      - epg-config:/epg:z
     network_mode: host
   jellyseerr:
     container_name: jellyseerr
@@ -28,6 +29,21 @@ services:
       - TZ="Europe/Vienna"
     volumes:
       - jellyseerr-config:/config:Z
+  epg:
+    container_name: epg
+    image: docker.io/library/node:latest
+    labels:
+      - "io.containers.autoupdate=registry"
+    volumes:
+      - epg-config:/config:z
+    environment:
+      - TZ="Europe/Vienna"
+    ports:
+      "3335:3000"
+    command:
+      - /bin/bash
+      - -c
+      - "/config/epg-pull.sh --channels ../../config/channels.xml --days 3 --maxConnections 1 --cron \"0 10,18,21 * * *\" --output \"../../config/guide.xml\""
 
 volumes:
   mnt-hdd:
@@ -65,4 +81,11 @@ volumes:
       type: none
       o: bind
       device: "/var/lib/jellyfin/jellyseerr/config"
+  epg-config:
+    name: "vol-epg-config"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/jellyfin/epg"
  
