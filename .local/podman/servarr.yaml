@@ -6,7 +6,7 @@ services:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
       - UMASK=002
-      - TZ="Etc/UTC"
+      - TZ="Europe/Vienna"
     labels:
       - "io.containers.autoupdate=registry"
     ports:
@@ -25,7 +25,7 @@ services:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
       - UMASK=002
-      - TZ="Etc/UTC"
+      - TZ="Europe/Vienna"
     labels:
       - "io.containers.autoupdate=registry"
     ports:
@@ -43,7 +43,7 @@ services:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
       - UMASK=002
-      - TZ="Etc/UTC"
+      - TZ="Europe/Vienna"
     labels:
       - "io.containers.autoupdate=registry"
     ports:
@@ -62,7 +62,7 @@ services:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
       - UMASK=002
-      - TZ=Etc/UTC
+      - TZ=Europe/Vienna
     labels:
       - "io.containers.autoupdate=registry"
     ports:
@@ -72,6 +72,20 @@ services:
       - bazarr-data:/data
       - mnt-hdd:/media/hdd
       - mnt-ssd:/media/ssd
+    networks:
+      - net-servarr
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    labels:
+      - "io.containers.autoupdate=registry"
+    ports:
+      - "7575:7575"
+    volumes:
+      - homarr-config:/app/data/configs
+      - homarr-data:/data
+      - homarr-icons:/app/public/icons
+    # network_mode: "host"
     networks:
       - net-servarr
 
@@ -139,9 +153,29 @@ volumes:
       type: none
       o: bind
       device: "/var/lib/servarr/bazarr/data"
+  homarr-config:
+    name: "vol-homarr-config"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/homarr/configs"
+  homarr-data:
+    name: "vol-homarr-data"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/homarr/data"
+  homarr-icons:
+    name: "vol-homarr-icons"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/servarr/homarr/icons"
 
 networks:
   net-servarr:
     name: net-servarr
     driver: bridge
-

@@ -2,8 +2,8 @@
 
 name="${RC_SVCNAME}"
 supervisor=supervise-daemon
-USER=servarr
-GROUP=servarr
+USER=jan
+GROUP=jan
 COMPOSE_FILE="/var/lib/${RC_SVCNAME}/compose.yaml"
 
 export USER_ID
@@ -11,7 +11,7 @@ export GROUP_ID
 
 start_pre() {
 	USER_ID=$(id -u ${USER})
-	GROUP_ID=$(id -g ${GROUP})
+	GROUP_ID=$(getent group ${GROUP} | cut -d":" -f3)
 }
 
 start() {
