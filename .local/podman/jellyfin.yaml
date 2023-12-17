@@ -11,9 +11,23 @@ services:
     volumes:
       - jellyfin-config:/config:Z
       - jellyfin-cache:/cache:Z
-      - mnt-hdd:/media/hdd
-      - mnt-ssd:/media/ssd
+      - mnt-hdd:/media/hdd:z
+      - mnt-ssd:/media/ssd:z
     network_mode: host
+  jellyseerr:
+    container_name: jellyseerr
+    image: ghcr.io/hotio/jellyseerr:latest
+    labels:
+      - "io.containers.autoupdate=registry"
+    ports:
+      - "5055:5055"
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - UMASK=002
+      - TZ="Europe/Vienna"
+    volumes:
+      - jellyseerr-config:/config:Z
 
 volumes:
   mnt-hdd:
@@ -44,4 +58,11 @@ volumes:
       type: none
       o: bind
       device: "/var/lib/jellyfin/cache"
+  jellyseerr-config:
+    name: "vol-jellyseerr-config"
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/var/lib/jellyfin/jellyseerr/config"
  

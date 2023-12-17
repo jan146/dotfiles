@@ -2,12 +2,12 @@
 
 name="${RC_SVCNAME}"
 supervisor=supervise-daemon
-USER=jellyfin
-GROUP=jellyfin
+USER=jan
+GROUP=jan
 COMPOSE_FILE="/var/lib/${RC_SVCNAME}/compose.yaml"
 
 CHECK_NVIDIA_PATH="/dev/nvidia-modeset"
-DEVICES_NVIDIA="nvidia.com/gpu=all"
+DEVICES_NVIDIA="nvidia.com/gpu=0"
 DEVICE_PATH_CARD_NONVIDIA="/dev/dri/by-path/pci-0000:00:02.0-card"
 DEVICE_PATH_RENDER_NONVIDIA="/dev/dri/by-path/pci-0000:00:02.0-render"
 # DEVICE_PATH_CARD_NVIDIA="/dev/dri/by-path/pci-0000:01:00.0-card"
@@ -26,7 +26,7 @@ start_pre() {
 
 	# get UID and GID
 	USER_ID=$(id -u ${USER})
-	GROUP_ID=$(id -g ${GROUP})
+	GROUP_ID=$(getent group ${GROUP} | cut -d":" -f3)
 
 	# set container name and devices
 	if ls "${CHECK_NVIDIA_PATH}" > /dev/null 2>&1
