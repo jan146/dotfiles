@@ -227,3 +227,6 @@ export PATH="/home/$USER/.local/bin:$PATH"
 # Enable distrobox
 source /usr/share/bash-completion/completions/distrobox*
 
+# Suppress python history
+export PYTHONSTARTUP=~/.config/python/pythonrc
+
