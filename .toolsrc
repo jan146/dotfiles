@@ -58,3 +58,7 @@ ppid () {
 	ps -p ${1:-$$} -o ppid=; 
 }
 
+# Remove ANSI colors from output
+ansi_decolor() {
+    sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'
+}
