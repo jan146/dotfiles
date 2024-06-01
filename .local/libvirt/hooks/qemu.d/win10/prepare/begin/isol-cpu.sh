@@ -1,11 +1,12 @@
 #!/bin/sh
+# https://github.com/rokups/rokups.github.io/blob/master/pages/gaming-vm-performance.md
 # Based on Thomas Lindroth's shell script which sets up host for VM: http://sprunge.us/JUfS
 
-TOTAL_CORES="0-5"
-TOTAL_CORES_MASK="3F"	# 0-5, bitmask 0011 1111
-HOST_CORES="0"			# Cores reserved for host
-HOST_CORES_MASK="20"	# 0, bitmask 0010 0000
-VIRT_CORES="1-5"		# Cores reserved for virtual machine(s)
+TOTAL_CORES="0-15"
+TOTAL_CORES_MASK="FFFF"	# 0-15, bitmask 1111 1111 1111 1111
+HOST_CORES="0-3"		# Cores reserved for host
+HOST_CORES_MASK="000F"	# 0-3,  bitmask 0000 0000 0000 1111
+VIRT_CORES="4-15"		# Cores reserved for virtual machine(s)
 
 VM_NAME="$1"
 VM_ACTION="$2"
@@ -61,7 +62,7 @@ cset_method() {
 		# migrated by cset. Restrict the workqueue to use only cpu 0.
 		echo "$HOST_CORES_MASK" > /sys/bus/workqueue/devices/writeback/cpumask
 		# THP can allegedly result in jitter. Better keep it off.
-		echo never > /sys/kernel/mm/transparent_hugepage/enabled
+		# echo never > /sys/kernel/mm/transparent_hugepage/enabled
 		# Force P-states to P0
 		echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 		echo 0 > /sys/bus/workqueue/devices/writeback/numa
@@ -74,7 +75,7 @@ cset_method() {
 		sysctl vm.stat_interval=1
 		sysctl -w kernel.watchdog=1
 		unshield_vm
-		echo always > /sys/kernel/mm/transparent_hugepage/enabled
+		# echo always > /sys/kernel/mm/transparent_hugepage/enabled
 		echo powersave | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 		echo 1 > /sys/bus/workqueue/devices/writeback/numa
 		>&2 echo "VMs UnShielded"
