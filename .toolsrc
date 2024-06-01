@@ -55,7 +55,7 @@ getperf () {
 
 # get ppid from pid
 ppid () { 
-	ps -p ${1:-$$} -o ppid=; 
+	ps -p ${1:-$$} -o ppid= | sed "s/[[:space:]]//g"
 }
 
 # Remove ANSI colors from output
