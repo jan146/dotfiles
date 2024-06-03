@@ -58,6 +58,16 @@ ppid () {
 	ps -p ${1:-$$} -o ppid= | sed "s/[[:space:]]//g"
 }
 
+kill_and_run() {
+
+	while pidof "$1" > /dev/null
+	do
+		pkill -9 $(pidof "$1")
+	done
+	/bin/sh -c "$1"
+
+}
+
 # Remove ANSI colors from output
 ansi_decolor() {
     sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'
