@@ -1,9 +1,9 @@
 # Generate global color scheme
 if [ -n "$2" ]
 then
-	wal -n -i "$2" --backend "$1"
+	wal -a 1 -n -i "$2" --backend "$1"
 else
-	wal -n -i ~/Pictures/wallpapers4k/ --backend "$1"
+	wal -a 1 -n -i ~/Pictures/wallpapers4k/ --backend "$1"
 fi
 
 # Set wallpaper manually
