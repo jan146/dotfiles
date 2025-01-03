@@ -8,9 +8,6 @@ _comp_options+=(globdots)		# Include hidden files.
 # Enable bash completion
 autoload -U +X bashcompinit && bashcompinit
 
-# Enable azure-cli autocompletion
-# source /opt/azure-cli/az.completion
-
 # Enable colors and change prompts
 # autoload -U colors && colors
 
@@ -189,8 +186,18 @@ source $ZSH/oh-my-zsh.sh
 
 # Source command completion, syntax highlighting, autosuggestions and aliases
 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]
+then
+	source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+else
+	source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+if [ -f "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]
+then
+	source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+else
+	source "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 source ~/.aliasrc
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -202,8 +209,8 @@ fi
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=3000
-SAVEHIST=3000
+HISTSIZE=30000
+SAVEHIST=30000
 # bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -216,17 +223,31 @@ source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[ -f "/home/jan/.ghcup/env" ] && source "/home/jan/.ghcup/env" # ghcup-env
 
 # Enable ctrl+backspace
 bindkey '^H' backward-kill-word
 
 # Add user binaries to PATH
-export PATH="/home/$USER/.local/bin:$PATH"
+LOCAL_PREFIX="${HOME}/.local"
+export PATH="${LOCAL_PREFIX}/bin:${PATH}"
+export LD_LIBRARY_PATH="${LOCAL_PREFIX}/lib:${LD_LIBRARY_PATH}"
+export CPATH="${LOCAL_PREFIX}/include:${CPATH}"
+export MANPATH="${LOCAL_PREFIX}/man:${MANPATH}"
 
 # Enable distrobox
 source /usr/share/bash-completion/completions/distrobox*
 
 # Suppress python history
 export PYTHONSTARTUP=~/.config/python/pythonrc
+
+ # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env"
+
+
+# bun completions
+[ -s "/home/jan/.bun/_bun" ] && source "/home/jan/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
