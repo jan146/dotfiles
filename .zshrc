@@ -251,3 +251,19 @@ export PYTHONSTARTUP=~/.config/python/pythonrc
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# Source ~/.zshrc.*
+for script in "${HOME}/.zshrc."*
+do
+    case "$script" in
+        *.old)
+            continue ;;
+        *.bak)
+            continue ;;
+        *)
+            echo "Sourcing $script"
+            . "$script"
+            echo "Finished sourcing $script"
+            ;;
+    esac
+done
+
