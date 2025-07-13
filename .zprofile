@@ -4,7 +4,7 @@ LOG_FILE="$HOME/.xorg.log"
 
 run_x() {
 	
-	if [ -z "$DISPLAY" ] && [ $(id -u) -ge 1000 ]
+	if [ -z "$DISPLAY" ] && [ $(id -u) -ge 1000 ] && [ -n "$XDG_VTNR" ]
 	then
 		exec startx -- -keeptty > "$LOG_FILE" 2>&1
 	fi
