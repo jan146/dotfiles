@@ -26,8 +26,8 @@ or other application using the libvirt API.
       <feature enabled='no' name='enrolled-keys'/>
       <feature enabled='yes' name='secure-boot'/>
     </firmware>
-    <loader readonly='yes' secure='yes' type='pflash'>/usr/share/edk2/x64/OVMF_CODE.secboot.fd</loader>
-    <nvram template='/usr/share/edk2/x64/OVMF_VARS.fd'>/var/lib/libvirt/qemu/nvram/win10_VARS.fd</nvram>
+    <loader readonly='yes' secure='yes' type='pflash'>/usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd</loader>
+    <nvram template='/usr/share/edk2/x64/OVMF_VARS.4m.fd'>/var/lib/libvirt/qemu/nvram/win10_VARS.4m.fd</nvram>
   </os>
   <features>
     <acpi/>
