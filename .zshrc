@@ -84,7 +84,7 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 ZSH_DISABLE_COMPFIX=true
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/jan/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -214,7 +214,7 @@ SAVEHIST=30000
 # bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/jan/.zshrc'
+zstyle :compinstall filename "${HOME}/.zshrc"
 
 # End of lines added by compinstall
 #source ~/powerlevel10k/powerlevel10k.zsh-theme
@@ -241,11 +241,11 @@ source /usr/share/bash-completion/completions/distrobox*
 export PYTHONSTARTUP=~/.config/python/pythonrc
 
  # ghcup-env
-[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env"
+[ -f "${HOME}/.ghcup/env" ] && . "${HOME}/.ghcup/env"
 
 
 # bun completions
-[ -s "/home/jan/.bun/_bun" ] && source "/home/jan/.bun/_bun"
+[ -s "${HOME}/.bun/_bun" ] && source "${HOME}/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
