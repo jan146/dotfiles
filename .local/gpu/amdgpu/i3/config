@@ -1,0 +1,6 @@
+# Amdgpu
+set $monitor_top HDMI-A-0
+set $monitor_left DisplayPort-0
+set $monitor_right DisplayPort-1
+include "$HOME/.config/i3/main.conf"
+
