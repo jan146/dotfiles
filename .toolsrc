@@ -3,26 +3,26 @@
 # ex - archive extractor
 # Usage: ex <file>
 ex () {
-	if [ -f "$1" ]; then
-		case "$1" in
-			*.tar.bz2)	tar xjf "$1" ;;
-			*.tar.zst)	tar --zstd -xf "$1" ;;
-			*.tar.gz)	tar xzf "$1" ;;
-			*.tar.xz)	tar xJf "$1" ;;
-			*.bz2)		bunzip2 "$1" ;;
-			*.rar)		unrar x "$1" ;;
-			*.gz)		gunzip "$1" ;;
-			*.tar)		tar xf "$1" ;;
-			*.tbz2)		tar xjf "$1" ;;
-			*.tgz)		tar xzf "$1" ;;
-			*.zip)		unzip "$1" ;;
-			*.Z)		uncompress "$1" ;;
-			*.7z)		7z x "$1" ;;
-			*)			echo "$1 cannot be extracted via ex()" ;;
-		esac
-	else
-		echo "$1 is not a valid file"
-	fi
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2)	tar xjf "$1" ;;
+            *.tar.zst)	tar --zstd -xf "$1" ;;
+            *.tar.gz)	tar xzf "$1" ;;
+            *.tar.xz)	tar xJf "$1" ;;
+            *.bz2)		bunzip2 "$1" ;;
+            *.rar)		unrar x "$1" ;;
+            *.gz)		gunzip "$1" ;;
+            *.tar)		tar xf "$1" ;;
+            *.tbz2)		tar xjf "$1" ;;
+            *.tgz)		tar xzf "$1" ;;
+            *.zip)		unzip "$1" ;;
+            *.Z)		uncompress "$1" ;;
+            *.7z)		7z x "$1" ;;
+            *)		    echo "$1 cannot be extracted via ex()" ;;
+        esac
+    else
+        echo "$1 is not a valid file"
+    fi
 }
 
 # set governor for all cpus
@@ -69,7 +69,7 @@ kill_and_run() {
 
 # Remove ANSI colors from output
 ansi_decolor() {
-	sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'
+    sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'
 }
 
 env_video() {
@@ -113,6 +113,11 @@ env_video() {
 			LIBVA_DRIVER_NAME=i965
 			# LIBVA_DRIVER_NAME=iHD
 			VDPAU_DRIVER=va_gl
+		elif grep LoadModule "$XORG_LOG" | grep -q amdgpu
+		then
+			MONITOR="DisplayPort-0"
+			LIBVA_DRIVER_NAME=radeonsi
+			VDPAU_DRIVER=radeonsi
 		else
 			ENV_VIDEO=2	# Failed to find Xorg log
 		fi
@@ -126,5 +131,26 @@ env_video() {
 	export VDPAU_DRIVER
 	export ENV_VIDEO
 
+}
+
+# Usage: smart_assistant_run [python args] [path/to/module]
+# Example usage: smart_assistant_run -i ai/classification/process_email.py
+# You do have to be in smart_assistant's root directory though
+smart_assistant_run() {
+    run_args=""
+    module=""
+    for arg in "$@"
+    do
+        run_args="$run_args $module"
+        module="$arg"
+    done
+    
+    run_args="$(echo $run_args | sed 's/^ *//')"
+    module="$(echo $module | sed 's/\//\./g;s/\.py$//')"
+    # echo "run_args: $run_args"
+    # echo "Module: $module"
+    echo "Running command: python $run_args -m $module"
+    python $run_args -m $module
+    
 }
 
