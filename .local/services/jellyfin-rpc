@@ -1,0 +1,21 @@
+#!/sbin/openrc-run
+
+name=$RC_SVCNAME
+description="Jellyfin-RPC Service"
+supervisor="supervise-daemon"
+USER=jan
+GROUP=jan
+
+export XDG_RUNTIME_DIR="/run/user/1000"
+
+command="/usr/lib/jellyfin-rpc/jellyfin-rpc"
+command_user="${USER}:${GROUP}"
+command_background="yes"
+pidfile="/var/run/${RC_SVCNAME}.pid"
+output_log="/var/log/${RC_SVCNAME}/output.log"
+error_log="/var/log/${RC_SVCNAME}/output.err"
+
+depend() {
+    need net
+}
+
