@@ -1,0 +1,24 @@
+{
+    "jellyfin": {
+        "url": "https://jellyfin.kmet.dev",
+        "api_key": "e4440324a031435a8382a3ceaf37a2ee",
+        "username": "admin",
+        "music": {
+            "display": {
+                "details_text": "{track} by {artists}",
+                "state_text": "Listening to {track}",
+                "image_text": "{album} ({year})"
+            },
+            "separator": "•",
+            "status_display_type": "state"
+        }
+    },
+    "images": {
+        "enable_images": true,
+        "litterbox_images": false,
+        "imgur_images": false 
+    },
+    "discord": {
+        "show_paused": false
+    }
+}
