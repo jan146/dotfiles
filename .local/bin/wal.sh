@@ -84,7 +84,7 @@ pywalfox update
 openrgb -c $(cat ~/.cache/wal/colors | sed -n "s/^#//g;2p") > /dev/null 2>&1 &
 
 # Kitty fix: nudge color0 by 1 value so that it's not considered background (and therefore transparent)
-perl -pi -e 's/(^color0\s+#)([0-9a-fA-F]{6})/$1 . sprintf("%06X", (hex($2) + 1) & 0xFFFFFF)/e' ~/.cache/wal/colors-kitty.conf
+# perl -pi -e 's/(^color0\s+#)([0-9a-fA-F]{6})/$1 . sprintf("%06X", (hex($2) + 1) & 0xFFFFFF)/e' ~/.cache/wal/colors-kitty.conf
 
 # Dunst
 cp ~/.cache/wal/dunstrc ~/.config/dunst/dunstrc
